@@ -174,6 +174,7 @@ export const insights = {
       image: "/images/insight-transformation.png",
       imageAlt:
         "Empty modern boardroom with soft morning light and city view",
+      imagePosition: "center 45%",
       body: [
         "Organizational transformation is often designed around structures, processes and targets. These elements matter — but they are rarely what determines whether change endures.",
         "Sustainable transformation depends on whether people understand the direction, trust the leadership behind it, and have the capacity to execute in practice. When that foundation is missing, even well-designed programmes struggle to deliver lasting impact.",
@@ -190,6 +191,7 @@ export const insights = {
       image: "/images/insight-leadership.png",
       imageAlt:
         "Senior professionals walking in conversation through an office corridor",
+      imagePosition: "center 22%",
       body: [
         "Periods of organisational change place particular demands on leadership. Communication remains essential, but it is not enough on its own.",
         "Teams look for clarity about what is known and what is still being decided. They also look for consistency between what leaders say and how leaders act — especially when uncertainty is high.",
@@ -206,6 +208,7 @@ export const insights = {
       image: "/images/insight-ai-hr.png",
       imageAlt:
         "Notebook, pen and closed laptop on a refined executive desk",
+      imagePosition: "center 65%",
       body: [
         "Artificial intelligence will reshape many aspects of HR work — from administration and analytics to how employees access support and information.",
         "The opportunity is significant: better efficiency, stronger decision-making and improved employee experience. The risk is equally real if technology is introduced without clear purpose, governance and human judgement.",

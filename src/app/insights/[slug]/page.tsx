@@ -44,16 +44,17 @@ export default async function InsightArticlePage({ params }: InsightPageProps) {
   return (
     <main id="main-content" className="bg-ivory">
       <article className="pb-20 md:pb-28">
-        <div className="relative h-[42vh] min-h-[18rem] w-full overflow-hidden md:h-[52vh] md:min-h-[26rem]">
+        <div className="relative h-[36vh] min-h-[17rem] w-full overflow-hidden md:h-[44vh] md:min-h-[22rem] lg:h-[48vh]">
           <Image
             src={article.image}
             alt={article.imageAlt}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition: article.imagePosition }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy/35 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/30 via-transparent to-transparent" />
         </div>
 
         <div className="mx-auto max-w-3xl px-5 pt-10 md:px-10 md:pt-14 lg:px-0">
