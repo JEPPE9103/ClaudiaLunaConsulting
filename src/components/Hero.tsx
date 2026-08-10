@@ -3,66 +3,69 @@ import { PortraitPlaceholder } from "@/components/PortraitPlaceholder";
 import { hero } from "@/data/content";
 
 export function Hero() {
+  const leadLines = hero.headlineLead.split("\n");
+
   return (
     <section
       id="top"
-      className="relative min-h-[90vh] overflow-hidden bg-navy text-ivory"
+      className="bg-ivory"
       aria-labelledby="hero-heading"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(184,151,106,0.12),transparent_45%),radial-gradient(ellipse_at_80%_0%,rgba(246,242,235,0.06),transparent_40%)]" />
-      <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-navy-soft/40 lg:block" />
+      <div className="mx-auto grid max-w-[1440px] lg:min-h-[calc(100vh-5.5rem)] lg:grid-cols-2">
+        <div className="flex flex-col justify-center px-5 py-14 md:px-10 md:py-20 lg:px-14 lg:py-24 xl:pr-20">
+          <h1
+            id="hero-heading"
+            className="max-w-xl font-serif text-[2.6rem] leading-[1.08] tracking-[-0.02em] text-navy sm:text-5xl md:text-[3.5rem] lg:text-[3.75rem] xl:text-[4.25rem]"
+          >
+            {leadLines.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+            <em className="mt-1 block font-serif italic text-champagne">
+              {hero.headlineAccent}
+            </em>
+          </h1>
 
-      <div className="relative mx-auto flex min-h-[90vh] max-w-7xl flex-col px-5 pb-10 pt-28 md:px-8 md:pt-32 lg:px-10 lg:pb-12">
-        <div className="grid flex-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <p className="mb-6 text-[11px] font-medium tracking-[0.28em] uppercase text-champagne-soft">
-              Stockholm · Senior HR Advisory
-            </p>
-            <h1
-              id="hero-heading"
-              className="max-w-xl font-serif text-[2.55rem] leading-[1.08] tracking-[-0.02em] text-ivory sm:text-5xl md:text-6xl lg:text-[4.15rem]"
-            >
-              {hero.headlineLead}
-              <br />
-              <em className="font-serif italic text-champagne-soft">
-                {hero.headlineAccent}
-              </em>
-            </h1>
-            <p className="mt-7 max-w-lg text-base leading-relaxed text-ivory/70 sm:text-lg">
-              {hero.supporting}
-            </p>
-            <div className="mt-10">
-              <Button href="#contact" variant="outline-light" arrow>
-                {hero.cta}
-              </Button>
-            </div>
-          </div>
+          <div className="gold-rule mt-8" />
 
-          <div className="lg:col-span-5">
-            <div className="mx-auto w-full max-w-md lg:ml-auto lg:max-w-none">
-              <PortraitPlaceholder
-                aspect="editorial"
-                className="border-ivory/15 bg-navy-soft/60 shadow-[0_30px_80px_rgba(0,0,0,0.28)]"
-                label="Portrait placeholder for Claudia Luna"
-              />
-            </div>
+          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-muted md:text-base">
+            {hero.supporting}
+          </p>
+
+          <div className="mt-10">
+            <Button href="#contact" variant="solid" arrow>
+              {hero.cta}
+            </Button>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-ivory/15 pt-6 lg:mt-16">
-          <ul className="flex flex-wrap items-center gap-x-0 gap-y-3 text-[10px] font-medium tracking-[0.2em] uppercase text-ivory/55 sm:text-[11px]">
+        <div className="relative min-h-[22rem] sm:min-h-[28rem] lg:min-h-full">
+          <PortraitPlaceholder
+            fill
+            priority
+            className="absolute inset-0 min-h-[22rem] sm:min-h-[28rem]"
+            label="Professional portrait of Claudia Luna, founder of Claudia Luna Consulting"
+            objectPosition="center 18%"
+          />
+        </div>
+      </div>
+
+      <div className="border-y border-line bg-ivory-warm">
+        <div className="mx-auto max-w-[1440px] px-5 py-5 md:px-10 lg:px-14">
+          <ul className="flex flex-wrap items-center gap-y-3 text-[10px] font-medium tracking-[0.18em] text-navy/60 uppercase sm:justify-between sm:gap-0 sm:text-[11px]">
             {hero.focusAreas.map((area, index) => (
               <li key={area} className="flex items-center">
                 {index > 0 ? (
                   <span
-                    className="mx-3 hidden h-3 w-px bg-ivory/25 sm:mx-4 sm:block md:mx-5"
+                    className="mx-3 hidden h-3 w-px bg-navy/15 sm:mx-4 sm:block lg:mx-6"
                     aria-hidden="true"
                   />
                 ) : null}
-                <span className={index > 0 ? "sm:ml-0 ml-0" : undefined}>
+                <span>
                   {index > 0 ? (
-                    <span className="mr-3 text-ivory/25 sm:hidden" aria-hidden="true">
-                      ·
+                    <span className="mr-3 text-navy/20 sm:hidden" aria-hidden="true">
+                      |
                     </span>
                   ) : null}
                   {area}

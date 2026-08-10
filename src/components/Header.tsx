@@ -9,7 +9,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -25,47 +25,32 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled || open
-          ? "border-b border-line bg-ivory/95 backdrop-blur-sm"
-          : "bg-transparent",
+        "sticky top-0 z-50 border-b border-line bg-ivory/95 backdrop-blur-sm transition-shadow duration-300",
+        scrolled && "shadow-[0_1px_0_rgba(16,29,41,0.04)]",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 md:px-8 lg:px-10">
-        <a href="#top" className="group shrink-0" aria-label={`${site.name} home`}>
-          <div
-            className={cn(
-              "font-sans text-[13px] font-semibold leading-tight tracking-[0.14em] uppercase transition-colors",
-              scrolled || open ? "text-navy" : "text-ivory",
-            )}
-          >
-            <span className="block">Claudia Luna</span>
-            <span className="block tracking-[0.22em]">Consulting</span>
-          </div>
-          <p
-            className={cn(
-              "mt-1 text-[9px] tracking-[0.2em] uppercase transition-colors",
-              scrolled || open ? "text-muted" : "text-ivory/65",
-            )}
-          >
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-5 py-3.5 md:px-10 lg:px-14">
+        <a href="#top" className="shrink-0" aria-label={`${site.name} home`}>
+          <p className="text-[12px] font-semibold tracking-[0.16em] text-navy uppercase sm:text-[13px]">
+            Claudia Luna
+          </p>
+          <p className="mt-0.5 text-[9px] tracking-[0.42em] text-navy/70 uppercase">
+            — Consulting —
+          </p>
+          <p className="mt-1.5 text-[8px] tracking-[0.22em] text-muted uppercase">
             {site.descriptorCompact}
           </p>
         </a>
 
         <nav
-          className="hidden items-center gap-8 lg:flex"
+          className="hidden items-center gap-7 xl:gap-9 lg:flex"
           aria-label="Primary"
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={cn(
-                "text-[11px] font-medium tracking-[0.18em] uppercase transition-colors duration-300",
-                scrolled
-                  ? "text-ink/70 hover:text-navy"
-                  : "text-ivory/75 hover:text-ivory",
-              )}
+              className="text-[10px] font-medium tracking-[0.2em] text-navy/70 uppercase transition-colors duration-300 hover:text-navy"
             >
               {link.label}
             </a>
@@ -75,24 +60,14 @@ export function Header() {
         <div className="flex items-center gap-3">
           <a
             href="#contact"
-            className={cn(
-              "hidden items-center border px-4 py-2.5 text-[10px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 sm:inline-flex",
-              scrolled
-                ? "border-navy/35 text-navy hover:bg-navy hover:text-ivory"
-                : "border-ivory/45 text-ivory hover:bg-ivory hover:text-navy",
-            )}
+            className="hidden items-center bg-navy px-4 py-2.5 text-[10px] font-medium tracking-[0.16em] text-ivory uppercase transition-colors duration-300 hover:bg-navy-soft sm:inline-flex"
           >
             Discuss an assignment
           </a>
 
           <button
             type="button"
-            className={cn(
-              "inline-flex h-11 w-11 items-center justify-center border transition-colors lg:hidden",
-              scrolled || open
-                ? "border-navy/25 text-navy"
-                : "border-ivory/35 text-ivory",
-            )}
+            className="inline-flex h-10 w-10 items-center justify-center border border-line text-navy transition-colors lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -131,14 +106,14 @@ export function Header() {
         )}
       >
         <nav
-          className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-6 md:px-8"
+          className="mx-auto flex max-w-[1440px] flex-col px-5 py-5 md:px-10"
           aria-label="Mobile"
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="border-b border-line py-4 text-[12px] font-medium tracking-[0.2em] uppercase text-navy"
+              className="border-b border-line py-4 text-[11px] font-medium tracking-[0.2em] text-navy uppercase"
               onClick={() => setOpen(false)}
             >
               {link.label}
@@ -146,7 +121,7 @@ export function Header() {
           ))}
           <a
             href="#contact"
-            className="mt-5 inline-flex items-center justify-center border border-navy px-5 py-3.5 text-[11px] font-medium tracking-[0.18em] uppercase text-navy transition-colors hover:bg-navy hover:text-ivory"
+            className="mt-5 inline-flex items-center justify-center bg-navy px-5 py-3.5 text-[11px] font-medium tracking-[0.16em] text-ivory uppercase transition-colors hover:bg-navy-soft"
             onClick={() => setOpen(false)}
           >
             Discuss an assignment

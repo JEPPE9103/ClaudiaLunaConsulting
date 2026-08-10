@@ -3,54 +3,45 @@ import { footer, navLinks, site } from "@/data/content";
 export function Footer() {
   return (
     <footer className="bg-navy text-ivory">
-      <div className="mx-auto max-w-7xl px-5 py-14 md:px-8 md:py-16 lg:px-10">
-        <div className="grid gap-10 border-b border-line-light pb-10 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
-            <p className="text-[13px] font-semibold tracking-[0.16em] uppercase">
-              Claudia Luna Consulting
-            </p>
-            <p className="mt-3 text-[11px] tracking-[0.2em] uppercase text-ivory/55">
-              {site.descriptor}
-            </p>
-          </div>
-
-          <nav
-            className="md:col-span-4"
-            aria-label="Footer"
-          >
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[11px] font-medium tracking-[0.16em] uppercase text-ivory/70 transition-colors hover:text-ivory"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="md:col-span-3 md:text-right">
-            <ul className="space-y-3">
-              {footer.legal.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="text-[11px] font-medium tracking-[0.16em] uppercase text-ivory/55 transition-colors hover:text-ivory"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-5 py-10 md:flex-row md:items-start md:justify-between md:px-10 md:py-12 lg:px-14">
+        <div>
+          <p className="text-[12px] font-semibold tracking-[0.16em] uppercase">
+            Claudia Luna Consulting
+          </p>
+          <p className="mt-2 text-[10px] tracking-[0.2em] text-ivory/55 uppercase">
+            {site.descriptor}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-3 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap gap-x-6 gap-y-3 md:justify-center">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="text-[10px] font-medium tracking-[0.16em] text-ivory/70 uppercase transition-colors hover:text-ivory"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="md:text-right">
           <p className="text-xs text-ivory/45">{site.copyright}</p>
-          <p className="text-xs text-ivory/35">Stockholm</p>
+          <ul className="mt-3 flex gap-5 md:justify-end">
+            {footer.legal.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="text-[10px] font-medium tracking-[0.14em] text-ivory/45 uppercase transition-colors hover:text-ivory"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

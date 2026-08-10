@@ -1,9 +1,9 @@
 export const site = {
   name: "Claudia Luna Consulting",
   shortName: "Claudia Luna",
-  descriptor: "People · Transformation · Business",
-  descriptorCompact: "PEOPLE · TRANSFORMATION · BUSINESS",
-  tagline: "People strategy for business transformation.",
+  descriptor: "People. Transformation. Business.",
+  descriptorCompact: "PEOPLE. TRANSFORMATION. BUSINESS.",
+  tagline: "Turning people strategy into business impact.",
   location: "Stockholm",
   email: "hello@claudialunaconsulting.com",
   linkedIn: "https://www.linkedin.com/in/", // Replace with Claudia's LinkedIn profile URL
@@ -19,10 +19,10 @@ export const navLinks = [
 ] as const;
 
 export const hero = {
-  headlineLead: "People strategy for",
-  headlineAccent: "business transformation.",
+  headlineLead: "Turning people\nstrategy into",
+  headlineAccent: "business impact.",
   supporting:
-    "Senior HR advisory helping organizations navigate transformation, organizational change and complex people challenges.",
+    "Senior HR advisory for organizations navigating transformation, organizational change and complex people challenges.",
   cta: "Discuss an assignment",
   focusAreas: [
     "Transformation",
@@ -34,65 +34,72 @@ export const hero = {
 } as const;
 
 export const expertise = {
-  headline: "HR expertise when business gets complex.",
+  headline: "How I help organizations",
   items: [
     {
-      number: "01",
-      title: "Transformation & Change",
-      points: [
-        "Organizational transformation",
-        "Restructuring & change management",
-        "Workforce planning",
-        "Stakeholder alignment",
-      ],
+      id: "transformation",
+      icon: "transform" as const,
+      title: "Transformation\n& Change",
+      description:
+        "Leading complex organizational transformation and restructuring with a people-first approach.",
       href: "#contact",
     },
     {
-      number: "02",
-      title: "People & Leadership",
-      points: [
-        "Strategic HR partnering",
-        "Employee & labor relations",
-        "Leadership advisory & coaching",
-        "Governance & compliance",
-      ],
+      id: "strategic-hr",
+      icon: "advisory" as const,
+      title: "Strategic\nHR Advisory",
+      description:
+        "Strategic HR partnering that enables leaders to make better people decisions.",
       href: "#contact",
     },
     {
-      number: "03",
-      title: "Future of HR",
-      points: [
-        "AI in HR & digital transformation",
-        "HR operating models",
-        "Process optimization",
-        "Future workforce strategies",
-      ],
+      id: "employee-relations",
+      icon: "relations" as const,
+      title: "Employee &\nLabor Relations",
+      description:
+        "Navigating complex employee relations and labor matters with professionalism and care.",
+      href: "#contact",
+    },
+    {
+      id: "interim",
+      icon: "interim" as const,
+      title: "Interim HR\nLeadership",
+      description:
+        "Providing senior HR leadership and stability during periods of change and growth.",
+      href: "#contact",
+    },
+    {
+      id: "ai-hr",
+      icon: "ai" as const,
+      title: "AI in HR & Digital\nTransformation",
+      description:
+        "Driving AI adoption and digital HR solutions for the future of work.",
       href: "#contact",
     },
   ],
 } as const;
 
 export const experienceStrip = {
-  headline: "Experience across complex organizations.",
+  headline: "Experience across\ncomplex organizations",
   items: [
     {
-      title: "Europe",
-      description: "Extensive international HR experience",
+      title: "International Experience",
+      description: "Extensive HR experience across Europe.",
       icon: "europe" as const,
     },
     {
-      title: "Board Level",
-      description: "Board Member experience & governance",
+      title: "Board Level Perspective",
+      description: "Board Member experience & governance.",
       icon: "board" as const,
     },
     {
-      title: "Transformation",
-      description: "Complex organizational change & restructuring",
+      title: "Transformation Expertise",
+      description: "Leading complex change & restructuring.",
       icon: "transform" as const,
     },
     {
-      title: "People Focus",
-      description: "Partnership with leaders, employees and stakeholders",
+      title: "People Focused",
+      description: "Strong partnerships with leaders & stakeholders.",
       icon: "people" as const,
     },
   ],
@@ -105,15 +112,21 @@ export const caseStudies = {
       id: "european-transformation",
       title: "European Transformation Program",
       description:
-        "Led and supported organizational transformation across multiple European markets, partnering with senior leaders, employee representatives and cross-functional stakeholders.",
+        "Led and supported organizational transformation across multiple European markets, partnering with senior leaders and employee representatives.",
       href: "#contact",
+      image: "/images/case-european-transformation.png",
+      imageAlt:
+        "Boardroom presentation on a European transformation roadmap",
     },
     {
       id: "employee-relations",
       title: "Complex Employee Relations",
       description:
-        "Strategic support in complex employee and labor relations during organizational change, balancing business objectives, compliance and employee considerations.",
+        "Strategic support in complex employee and labor relations during organizational change, balancing business objectives and compliance.",
       href: "#contact",
+      image: "/images/case-employee-relations.png",
+      imageAlt:
+        "Strategic advisory conversation on complex employee relations",
     },
     {
       id: "ai-adoption-hr",
@@ -121,6 +134,8 @@ export const caseStudies = {
       description:
         "Supporting AI adoption and digital HR initiatives designed to improve efficiency, decision-making and employee experience.",
       href: "#contact",
+      image: "/images/case-ai-adoption.png",
+      imageAlt: "People analytics dashboard supporting AI adoption in HR",
     },
   ],
 } as const;
@@ -141,7 +156,7 @@ export const about = {
 } as const;
 
 export const contact = {
-  headline: "Facing a people or organizational challenge?",
+  headline: "Facing a people or\norganizational challenge?",
   text: "Let's discuss how Claudia Luna Consulting can support your organization.",
   cta: "Get in touch",
 } as const;
