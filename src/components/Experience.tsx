@@ -59,11 +59,11 @@ export function Experience() {
 
         <div className="relative min-h-[20rem] overflow-hidden sm:min-h-[24rem] lg:min-h-full">
           <Image
-            src="/images/experience-architecture.png"
-            alt="Modern European office architecture at dusk"
+            src="/images/experience-architecture-v2.png"
+            alt="Modern glass office architecture along the Stockholm waterfront at sunset"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover object-center"
+            className="object-cover object-[70%_center]"
           />
         </div>
       </div>

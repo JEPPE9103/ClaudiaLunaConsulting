@@ -171,7 +171,7 @@ export const insights = {
       title: "Why successful transformation starts with people",
       description:
         "Organizational transformation is often designed around structures, processes and targets. But sustainable change depends on something more fundamental — whether people understand, trust and can execute the change.",
-      image: "/images/insight-transformation.png",
+      image: "/images/insight-transformation-v2.png",
       imageAlt:
         "Empty modern boardroom with soft morning light and city view",
       imagePosition: "center 45%",
@@ -188,7 +188,7 @@ export const insights = {
       title: "Leading through organizational change",
       description:
         "Periods of change demand more from leaders than communication alone. Clarity, trust and consistency become critical when organizations and teams are navigating uncertainty.",
-      image: "/images/insight-leadership.png",
+      image: "/images/insight-leadership-v2.png",
       imageAlt:
         "Senior professionals walking in conversation through an office corridor",
       imagePosition: "center 22%",
@@ -205,7 +205,7 @@ export const insights = {
       title: "AI will change HR. The question is how we use it.",
       description:
         "AI can improve efficiency, decision-making and employee experience — but successful adoption requires more than technology. HR has an important role in shaping how AI becomes part of the organization.",
-      image: "/images/insight-ai-hr.png",
+      image: "/images/insight-ai-hr-v2.png",
       imageAlt:
         "Notebook, pen and closed laptop on a refined executive desk",
       imagePosition: "center 65%",
