@@ -161,9 +161,59 @@ export const contact = {
   cta: "Get in touch",
 } as const;
 
-export const insightsPlaceholder = {
+export const insights = {
   headline: "Insights",
-  text: "Perspectives on people strategy, transformation and the future of HR will appear here.",
+  intro: "Perspectives on people, transformation and the future of HR.",
+  items: [
+    {
+      slug: "why-successful-transformation-starts-with-people",
+      category: "Transformation",
+      title: "Why successful transformation starts with people",
+      description:
+        "Organizational transformation is often designed around structures, processes and targets. But sustainable change depends on something more fundamental — whether people understand, trust and can execute the change.",
+      image: "/images/insight-transformation.png",
+      imageAlt:
+        "Empty modern boardroom with soft morning light and city view",
+      body: [
+        "Organizational transformation is often designed around structures, processes and targets. These elements matter — but they are rarely what determines whether change endures.",
+        "Sustainable transformation depends on whether people understand the direction, trust the leadership behind it, and have the capacity to execute in practice. When that foundation is missing, even well-designed programmes struggle to deliver lasting impact.",
+        "A people-centred approach does not mean delaying decisions. It means aligning strategy, communication, leadership behaviour and workforce realities so change can be implemented with clarity and credibility.",
+        "For senior leaders, the practical question is not only what will change — but how people across the organisation will experience, interpret and carry that change forward.",
+      ],
+    },
+    {
+      slug: "leading-through-organizational-change",
+      category: "Leadership",
+      title: "Leading through organizational change",
+      description:
+        "Periods of change demand more from leaders than communication alone. Clarity, trust and consistency become critical when organizations and teams are navigating uncertainty.",
+      image: "/images/insight-leadership.png",
+      imageAlt:
+        "Senior professionals walking in conversation through an office corridor",
+      body: [
+        "Periods of organisational change place particular demands on leadership. Communication remains essential, but it is not enough on its own.",
+        "Teams look for clarity about what is known and what is still being decided. They also look for consistency between what leaders say and how leaders act — especially when uncertainty is high.",
+        "Trust is built through presence, honesty and follow-through. Leaders who can hold difficult conversations, listen carefully and remain steady under pressure create the conditions for people to stay engaged through transition.",
+        "Effective change leadership is therefore both strategic and deeply human: setting direction while supporting the people who must deliver it.",
+      ],
+    },
+    {
+      slug: "ai-will-change-hr-the-question-is-how-we-use-it",
+      category: "Future of HR",
+      title: "AI will change HR. The question is how we use it.",
+      description:
+        "AI can improve efficiency, decision-making and employee experience — but successful adoption requires more than technology. HR has an important role in shaping how AI becomes part of the organization.",
+      image: "/images/insight-ai-hr.png",
+      imageAlt:
+        "Notebook, pen and closed laptop on a refined executive desk",
+      body: [
+        "Artificial intelligence will reshape many aspects of HR work — from administration and analytics to how employees access support and information.",
+        "The opportunity is significant: better efficiency, stronger decision-making and improved employee experience. The risk is equally real if technology is introduced without clear purpose, governance and human judgement.",
+        "Successful adoption is not only a systems question. It is an organisational one. HR has an important role in shaping how AI is used, where human oversight remains essential, and how people are supported through the change.",
+        "The organisations that benefit most will treat AI as part of a broader people and operating-model agenda — not as a stand-alone technology project.",
+      ],
+    },
+  ],
 } as const;
 
 export const footer = {

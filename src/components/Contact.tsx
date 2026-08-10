@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { contact, site } from "@/data/content";
@@ -93,16 +92,6 @@ export function Contact() {
     >
       <div className="mx-auto grid max-w-[1440px] gap-12 px-5 md:px-10 lg:grid-cols-12 lg:gap-16 lg:px-14">
         <FadeIn className="lg:col-span-5">
-          <div className="relative mb-8 hidden aspect-[5/3] overflow-hidden md:block lg:mb-10">
-            <Image
-              src="/images/contact-workspace.png"
-              alt="Executive workspace detail with desk, notebook and city view"
-              fill
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover object-center"
-            />
-          </div>
-
           <h2
             id="contact-heading"
             className="font-serif text-3xl leading-[1.15] tracking-[-0.02em] text-navy sm:text-4xl md:text-[2.6rem]"
