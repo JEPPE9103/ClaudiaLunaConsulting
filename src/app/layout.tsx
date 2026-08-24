@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { LanguageProvider } from "@/components/LanguageProvider";
+import { SkipLink } from "@/components/SkipLink";
 import { site } from "@/data/content";
 import "./globals.css";
 
@@ -11,48 +13,40 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://claudialunaconsulting.com"),
   title: {
-    default: "Claudia Luna Consulting | Strategic HR Advisory Stockholm",
+    default: "Claudia Luna Consulting | Senior HR-rådgivning Stockholm",
     template: "%s | Claudia Luna Consulting",
   },
   description:
-    "Turning people strategy into business impact. Senior HR advisory helping organizations navigate transformation, organizational change and complex people challenges.",
+    "Senior HR-kompetens när din organisation behöver det som mest. Strategiskt och operativt HR-stöd inom transformation, employee relations, interim ledarskap och digital HR.",
   keywords: [
     "Claudia Luna Consulting",
-    "HR Consulting Stockholm",
+    "HR-konsult Stockholm",
+    "Interim HR",
     "HR Transformation",
-    "Strategic HR Advisory",
-    "Organizational Transformation",
+    "Strategisk HR-rådgivning",
     "Employee Relations",
-    "AI in HR",
-    "People strategy",
-    "Change management",
+    "Organisatorisk förändring",
+    "AI i HR",
   ],
   authors: [{ name: "Claudia Luna" }],
   creator: "Claudia Luna Consulting",
   openGraph: {
     type: "website",
-    locale: "en_GB",
+    locale: "sv_SE",
+    alternateLocale: ["en_GB"],
     siteName: site.name,
-    title: "Claudia Luna Consulting | Strategic HR Advisory",
+    title: "Claudia Luna Consulting | Senior HR-rådgivning",
     description:
-      "Senior HR advisory helping organizations navigate transformation, organizational change and complex people challenges.",
+      "Strategiskt och operativt HR-stöd för organisationer som navigerar förändring, tillväxt och komplexa people-frågor.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Claudia Luna Consulting",
     description:
-      "Turning people strategy into business impact. Senior HR advisory based in Stockholm.",
+      "Senior HR-kompetens för organisationer som navigerar förändring, tillväxt och komplexa people-frågor.",
   },
   robots: {
     index: true,
@@ -66,19 +60,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
-      className={`${manrope.variable} ${cormorant.variable} h-full scroll-smooth antialiased`}
+      lang="sv"
+      className={`${manrope.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-ivory font-sans text-navy">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-ivory focus:px-4 focus:py-2 focus:text-sm focus:text-navy"
-        >
-          Skip to content
-        </a>
-        <Header />
-        {children}
-        <Footer />
+      <body className="min-h-full bg-ivory font-sans text-charcoal">
+        <LanguageProvider>
+          <SkipLink />
+          <Header />
+          {children}
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

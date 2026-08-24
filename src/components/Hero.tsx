@@ -1,78 +1,58 @@
+"use client";
+
+import Image from "next/image";
 import { Button } from "@/components/Button";
-import { PortraitPlaceholder } from "@/components/PortraitPlaceholder";
-import { hero } from "@/data/content";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export function Hero() {
-  const leadLines = hero.headlineLead.split("\n");
+  const { t } = useLanguage();
+  const hero = t.hero;
+  const [lead] = hero.headline.split(hero.headlineAccent);
 
   return (
-    <section
-      id="top"
-      className="bg-ivory"
-      aria-labelledby="hero-heading"
-    >
-      <div className="mx-auto grid max-w-[1440px] lg:min-h-[calc(100vh-5.5rem)] lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-5 py-14 md:px-10 md:py-20 lg:px-14 lg:py-24 xl:pr-20">
-          <h1
-            id="hero-heading"
-            className="max-w-xl font-serif text-[2.6rem] leading-[1.08] tracking-[-0.02em] text-navy sm:text-5xl md:text-[3.5rem] lg:text-[3.75rem] xl:text-[4.25rem]"
-          >
-            {leadLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-            <em className="mt-1 block font-serif italic text-champagne">
-              {hero.headlineAccent}
-            </em>
-          </h1>
-
-          <div className="gold-rule mt-8" />
-
-          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-muted md:text-base">
-            {hero.supporting}
+    <section id="top" className="bg-ivory" aria-labelledby="hero-heading">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-12 md:px-8 md:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
+        <div>
+          <p className="inline-flex rounded-full border border-line bg-sand/60 px-3 py-1 text-[10px] font-medium tracking-[0.14em] text-charcoal/70 uppercase">
+            {hero.pill}
           </p>
 
-          <div className="mt-10">
-            <Button href="#contact" variant="solid" arrow>
-              {hero.cta}
+          <h1
+            id="hero-heading"
+            className="mt-6 max-w-xl text-4xl font-semibold leading-[1.12] tracking-[-0.03em] text-charcoal sm:text-5xl lg:text-[3.4rem]"
+          >
+            {lead}
+            <span className="text-terracotta">{hero.headlineAccent}</span>
+          </h1>
+
+          <p className="mt-6 max-w-md text-lg font-medium leading-snug text-charcoal/80">
+            {hero.supporting}
+          </p>
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">
+            {hero.body}
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-5">
+            <Button href="#contact" arrow>
+              {hero.primaryCta}
+            </Button>
+            <Button href="#services" variant="ghost" arrow>
+              {hero.secondaryCta}
             </Button>
           </div>
         </div>
 
-        <div className="relative min-h-[22rem] sm:min-h-[28rem] lg:min-h-full">
-          <PortraitPlaceholder
-            fill
-            priority
-            className="absolute inset-0 min-h-[22rem] sm:min-h-[28rem]"
-            label="Professional portrait of Claudia Luna, founder of Claudia Luna Consulting"
-            objectPosition="center 18%"
-          />
-        </div>
-      </div>
-
-      <div className="border-y border-line bg-ivory-warm">
-        <div className="mx-auto max-w-[1440px] px-5 py-5 md:px-10 lg:px-14">
-          <ul className="flex flex-wrap items-center gap-y-3 text-[10px] font-medium tracking-[0.18em] text-navy/60 uppercase sm:justify-between sm:gap-0 sm:text-[11px]">
-            {hero.focusAreas.map((area, index) => (
-              <li key={area} className="flex items-center">
-                {index > 0 ? (
-                  <span
-                    className="mx-3 hidden h-3 w-px bg-navy/15 sm:mx-4 sm:block lg:mx-6"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                <span>
-                  {index > 0 ? (
-                    <span className="mr-3 text-navy/20 sm:hidden" aria-hidden="true">
-                      |
-                    </span>
-                  ) : null}
-                  {area}
-                </span>
-              </li>
-            ))}
-          </ul>
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-sand">
+            <Image
+              src="/images/claudia-luna-hero-v3.png"
+              alt={hero.portraitAlt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 90vw, 42vw"
+              className="object-cover object-[center_15%]"
+            />
+          </div>
         </div>
       </div>
     </section>

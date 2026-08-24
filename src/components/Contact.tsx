@@ -2,7 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
-import { contact, site } from "@/data/content";
+import { useLanguage } from "@/components/LanguageProvider";
+import { site } from "@/data/content";
 import { cn } from "@/lib/cn";
 
 type FormState = "idle" | "submitting" | "success" | "error";
@@ -14,33 +15,36 @@ type FieldErrors = {
   message?: string;
 };
 
-function validate(form: {
-  name: string;
-  company: string;
-  email: string;
-  message: string;
-}): FieldErrors {
-  const errors: FieldErrors = {};
-  if (!form.name.trim()) errors.name = "Please enter your name.";
-  if (!form.company.trim()) errors.company = "Please enter your company.";
-  if (!form.email.trim()) {
-    errors.email = "Please enter your email.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-    errors.email = "Please enter a valid email address.";
-  }
-  if (!form.message.trim()) {
-    errors.message = "Please tell us how we can help.";
-  } else if (form.message.trim().length < 10) {
-    errors.message = "Please provide a little more detail.";
-  }
-  return errors;
-}
-
 export function Contact() {
+  const { t } = useLanguage();
+  const contact = t.contact;
+  const formCopy = contact.form;
+
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
-  const headlineLines = contact.headline.split("\n");
+
+  function validate(form: {
+    name: string;
+    company: string;
+    email: string;
+    message: string;
+  }): FieldErrors {
+    const next: FieldErrors = {};
+    if (!form.name.trim()) next.name = formCopy.errors.name;
+    if (!form.company.trim()) next.company = formCopy.errors.company;
+    if (!form.email.trim()) {
+      next.email = formCopy.errors.emailRequired;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      next.email = formCopy.errors.emailInvalid;
+    }
+    if (!form.message.trim()) {
+      next.message = formCopy.errors.messageRequired;
+    } else if (form.message.trim().length < 10) {
+      next.message = formCopy.errors.messageShort;
+    }
+    return next;
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -78,144 +82,138 @@ export function Contact() {
       setErrors({});
     } catch {
       setState("error");
-      setFormError(
-        "Something went wrong. Please try again or email directly.",
-      );
+      setFormError(formCopy.errors.generic);
     }
   }
 
   return (
     <section
       id="contact"
-      className="bg-ivory-warm py-20 md:py-24 lg:py-28"
+      className="bg-dark py-16 text-ivory md:py-24"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto grid max-w-[1440px] gap-12 px-5 md:px-10 lg:grid-cols-12 lg:gap-16 lg:px-14">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 md:px-8 lg:grid-cols-12 lg:gap-16">
         <FadeIn className="lg:col-span-5">
           <h2
             id="contact-heading"
-            className="font-serif text-3xl leading-[1.15] tracking-[-0.02em] text-navy sm:text-4xl md:text-[2.6rem]"
+            className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
           >
-            {headlineLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
+            {contact.headline}
           </h2>
-          <div className="gold-rule mt-5" />
-          <p className="mt-6 max-w-md text-base leading-relaxed text-muted">
+          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ivory/70">
             {contact.text}
           </p>
+
+          <div className="mt-8 space-y-4">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.16em] text-ivory/50 uppercase">
+                {contact.emailLabel}
+              </p>
+              <a
+                href={`mailto:${site.email}`}
+                className="mt-1 inline-block text-sm transition-colors hover:text-terracotta-soft"
+              >
+                {site.email}
+              </a>
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.16em] text-ivory/50 uppercase">
+                {contact.linkedInLabel}
+              </p>
+              <a
+                href={site.linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-flex items-center gap-2 text-sm transition-colors hover:text-terracotta-soft"
+              >
+                {contact.linkedInCta} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+
           <a
-            href="#contact-form"
-            className="mt-8 inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.18em] text-navy uppercase transition-all duration-300 hover:gap-3 hover:text-champagne"
+            href={`mailto:${site.email}`}
+            className="mt-8 inline-flex items-center justify-center rounded-full bg-ivory px-6 py-3.5 text-[11px] font-semibold tracking-[0.14em] text-charcoal uppercase transition-colors hover:bg-sand"
           >
-            {contact.cta} <span aria-hidden="true">→</span>
+            {contact.cta}
           </a>
         </FadeIn>
 
         <FadeIn className="lg:col-span-7" delayMs={80}>
-          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:gap-12">
-            <div id="contact-form">
-              {state === "success" ? (
-                <div role="status" aria-live="polite" className="py-8">
-                  <div className="gold-rule mb-6" />
-                  <h3 className="font-serif text-2xl text-navy">Message sent</h3>
-                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-                    Thank you for reaching out. Claudia will respond as soon as
-                    possible.
+          <div id="contact-form">
+            {state === "success" ? (
+              <div
+                role="status"
+                aria-live="polite"
+                className="rounded-[1.5rem] bg-charcoal-soft/40 p-8"
+              >
+                <h3 className="text-xl font-semibold">{formCopy.successTitle}</h3>
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-ivory/70">
+                  {formCopy.successText}
+                </p>
+                <button
+                  type="button"
+                  className="mt-6 text-[11px] font-semibold tracking-[0.14em] uppercase underline-offset-4 hover:underline"
+                  onClick={() => setState("idle")}
+                >
+                  {formCopy.sendAnother}
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={onSubmit} noValidate className="space-y-5">
+                <Field
+                  id="name"
+                  label={formCopy.name}
+                  name="name"
+                  autoComplete="name"
+                  error={errors.name}
+                />
+                <Field
+                  id="company"
+                  label={formCopy.company}
+                  name="company"
+                  autoComplete="organization"
+                  error={errors.company}
+                />
+                <Field
+                  id="email"
+                  label={formCopy.email}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  error={errors.email}
+                />
+                <Field
+                  id="message"
+                  label={formCopy.message}
+                  name="message"
+                  as="textarea"
+                  error={errors.message}
+                />
+
+                {formError ? (
+                  <p
+                    role="alert"
+                    className="rounded-xl border border-red-200/20 bg-red-950/30 px-4 py-3 text-sm text-red-100"
+                  >
+                    {formError}
                   </p>
-                  <button
-                    type="button"
-                    className="mt-8 text-[11px] font-medium tracking-[0.18em] text-navy uppercase underline-offset-4 hover:underline"
-                    onClick={() => setState("idle")}
-                  >
-                    Send another message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={onSubmit} noValidate className="space-y-6">
-                  <Field
-                    id="name"
-                    label="Name"
-                    name="name"
-                    autoComplete="name"
-                    error={errors.name}
-                  />
-                  <Field
-                    id="company"
-                    label="Company"
-                    name="company"
-                    autoComplete="organization"
-                    error={errors.company}
-                  />
-                  <Field
-                    id="email"
-                    label="Email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    error={errors.email}
-                  />
-                  <Field
-                    id="message"
-                    label="How can I help?"
-                    name="message"
-                    as="textarea"
-                    error={errors.message}
-                  />
+                ) : null}
 
-                  {formError ? (
-                    <p
-                      role="alert"
-                      className="border border-red-900/20 bg-red-50 px-4 py-3 text-sm text-red-900/80"
-                    >
-                      {formError}
-                    </p>
-                  ) : null}
-
-                  <button
-                    type="submit"
-                    disabled={state === "submitting"}
-                    className={cn(
-                      "inline-flex items-center justify-center gap-2 bg-navy px-6 py-3.5 text-[11px] font-medium tracking-[0.18em] text-ivory uppercase transition-colors duration-300",
-                      state === "submitting"
-                        ? "cursor-wait opacity-70"
-                        : "hover:bg-navy-soft",
-                    )}
-                  >
-                    {state === "submitting" ? "Sending..." : "Send message"}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            <aside className="space-y-6 border-t border-line pt-8 lg:w-48 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-              <div>
-                <p className="text-[10px] font-medium tracking-[0.18em] text-muted uppercase">
-                  Email
-                </p>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="mt-2 block break-all text-sm text-navy transition-colors hover:text-champagne"
+                <button
+                  type="submit"
+                  disabled={state === "submitting"}
+                  className={cn(
+                    "inline-flex items-center justify-center rounded-full bg-ivory px-6 py-3.5 text-[11px] font-semibold tracking-[0.14em] text-charcoal uppercase transition-colors",
+                    state === "submitting"
+                      ? "cursor-wait opacity-70"
+                      : "hover:bg-sand",
+                  )}
                 >
-                  {site.email}
-                </a>
-              </div>
-              <div>
-                <p className="text-[10px] font-medium tracking-[0.18em] text-muted uppercase">
-                  LinkedIn
-                </p>
-                <a
-                  href={site.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-2 text-sm text-navy transition-colors hover:text-champagne"
-                >
-                  Connect <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            </aside>
+                  {state === "submitting" ? formCopy.sending : formCopy.submit}
+                </button>
+              </form>
+            )}
           </div>
         </FadeIn>
       </div>
@@ -243,13 +241,13 @@ function Field({
   error,
 }: FieldProps) {
   const shared =
-    "w-full border border-line bg-transparent px-3 py-3 text-sm text-navy placeholder:text-muted/50 focus:border-champagne focus:outline-none";
+    "w-full rounded-xl border border-line-light bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-ivory/30 focus:border-terracotta-soft focus:outline-none";
 
   return (
     <div>
       <label
         htmlFor={id}
-        className="mb-2 block text-[10px] font-medium tracking-[0.18em] text-muted uppercase"
+        className="mb-2 block text-[10px] font-semibold tracking-[0.16em] text-ivory/55 uppercase"
       >
         {label}
       </label>
@@ -274,7 +272,7 @@ function Field({
         />
       )}
       {error ? (
-        <p id={`${id}-error`} className="mt-2 text-xs text-red-800/80" role="alert">
+        <p id={`${id}-error`} className="mt-2 text-xs text-red-200" role="alert">
           {error}
         </p>
       ) : null}

@@ -1,70 +1,41 @@
-import Image from "next/image";
+"use client";
+
 import { FadeIn } from "@/components/FadeIn";
-import { LineIcon } from "@/components/LineIcon";
-import { experienceStrip } from "@/data/content";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export function Experience() {
-  const headlineLines = experienceStrip.headline.split("\n");
+  const { t } = useLanguage();
+  const credibility = t.credibility;
 
   return (
     <section
       id="experience"
-      className="bg-navy text-ivory"
+      className="bg-dark py-16 text-ivory md:py-20"
       aria-labelledby="experience-heading"
     >
-      <div className="mx-auto grid max-w-[1440px] lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-5 py-16 md:px-10 md:py-20 lg:px-14 lg:py-24">
-          <FadeIn>
-            <h2
-              id="experience-heading"
-              className="max-w-md font-serif text-3xl leading-[1.15] tracking-[-0.02em] sm:text-4xl md:text-[2.75rem]"
-            >
-              {headlineLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </h2>
-            <div className="gold-rule mt-6 bg-champagne" />
-          </FadeIn>
+      <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <FadeIn>
+          <h2
+            id="experience-heading"
+            className="max-w-xl text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
+          >
+            {credibility.headline}
+          </h2>
+        </FadeIn>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 sm:gap-0">
-            {experienceStrip.items.map((item, index) => (
-              <FadeIn key={item.title} delayMs={index * 70}>
-                <div
-                  className={[
-                    "flex gap-4 py-5 sm:px-5 sm:py-6",
-                    index % 2 === 1 ? "sm:border-l sm:border-line-light" : "",
-                    index >= 2 ? "sm:border-t sm:border-line-light" : "",
-                    index % 2 === 0 ? "sm:pl-0" : "",
-                  ].join(" ")}
-                >
-                  <LineIcon
-                    name={item.icon}
-                    className="mt-0.5 h-6 w-6 shrink-0 text-champagne"
-                  />
-                  <div>
-                    <h3 className="text-[11px] font-medium tracking-[0.16em] uppercase">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-ivory/65">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative min-h-[20rem] overflow-hidden sm:min-h-[24rem] lg:min-h-full">
-          <Image
-            src="/images/experience-architecture-v2.png"
-            alt="Modern glass office architecture along the Stockholm waterfront at sunset"
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover object-[70%_center]"
-          />
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          {credibility.items.map((item, index) => (
+            <FadeIn key={item.title} delayMs={index * 50}>
+              <div className="border-t border-line-light pt-5">
+                <h3 className="text-[11px] font-semibold tracking-[0.16em] uppercase">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-ivory/70">
+                  {item.description}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>

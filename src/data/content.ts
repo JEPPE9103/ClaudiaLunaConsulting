@@ -1,227 +1,521 @@
+export type Locale = "sv" | "en";
+
+export const defaultLocale: Locale = "sv";
+export const locales: Locale[] = ["sv", "en"];
+
 export const site = {
   name: "Claudia Luna Consulting",
   shortName: "Claudia Luna",
-  descriptor: "People. Transformation. Business.",
-  descriptorCompact: "PEOPLE. TRANSFORMATION. BUSINESS.",
-  tagline: "Turning people strategy into business impact.",
-  location: "Stockholm",
   email: "hello@claudialunaconsulting.com",
   linkedIn: "https://www.linkedin.com/in/", // Replace with Claudia's LinkedIn profile URL
   copyright: "© Claudia Luna Consulting",
 } as const;
 
-export const navLinks = [
-  { label: "Expertise", href: "#expertise" },
-  { label: "Experience", href: "#experience" },
-  { label: "About", href: "#about" },
-  { label: "Insights", href: "#insights" },
-  { label: "Contact", href: "#contact" },
-] as const;
-
-export const hero = {
-  headlineLead: "Turning people\nstrategy into",
-  headlineAccent: "business impact.",
-  supporting:
-    "Senior HR advisory for organizations navigating transformation, organizational change and complex people challenges.",
-  cta: "Discuss an assignment",
-  focusAreas: [
-    "Transformation",
-    "Strategic HR",
-    "Employee Relations",
-    "Leadership",
-    "AI in HR",
-  ],
+const sharedInsightMeta = {
+  transformation: {
+    slug: "why-successful-transformation-starts-with-people",
+    image: "/images/insight-transformation-v2.png",
+    imagePosition: "center 45%",
+  },
+  leadership: {
+    slug: "leading-through-organizational-change",
+    image: "/images/insight-leadership-v2.png",
+    imagePosition: "center 22%",
+  },
+  ai: {
+    slug: "ai-will-change-hr-the-question-is-how-we-use-it",
+    image: "/images/insight-ai-hr-v2.png",
+    imagePosition: "center 65%",
+  },
 } as const;
 
-export const expertise = {
-  headline: "How I help organizations",
-  items: [
-    {
-      id: "transformation",
-      icon: "transform" as const,
-      title: "Transformation\n& Change",
-      description:
-        "Leading complex organizational transformation and restructuring with a people-first approach.",
-      href: "#contact",
+export const content = {
+  sv: {
+    navLinks: [
+      { label: "Hem", href: "#top" },
+      { label: "Om", href: "#about" },
+      { label: "Tjänster", href: "#services" },
+      { label: "Kontakt", href: "#contact" },
+    ],
+    header: {
+      contactCta: "Kontakta Claudia",
+      openMenu: "Öppna meny",
+      closeMenu: "Stäng meny",
     },
-    {
-      id: "strategic-hr",
-      icon: "advisory" as const,
-      title: "Strategic\nHR Advisory",
-      description:
-        "Strategic HR partnering that enables leaders to make better people decisions.",
-      href: "#contact",
+    hero: {
+      pill: "Senior HR · Transformation · Rådgivning",
+      headline: "Senior HR-kompetens när din organisation behöver det som mest.",
+      headlineAccent: "behöver det som mest.",
+      supporting:
+        "Strategiskt och operativt HR-stöd för organisationer som navigerar förändring, tillväxt och komplexa people-frågor.",
+      body: "Claudia Luna Consulting stöttar ledare och organisationer med senior HR-kompetens inom transformation, employee relations, strategisk HR och interim ledarskap.",
+      primaryCta: "Låt oss prata",
+      secondaryCta: "Se tjänster",
+      portraitAlt:
+        "Professionellt porträtt av Claudia Luna, grundare av Claudia Luna Consulting",
     },
-    {
-      id: "employee-relations",
-      icon: "relations" as const,
-      title: "Employee &\nLabor Relations",
-      description:
-        "Navigating complex employee relations and labor matters with professionalism and care.",
-      href: "#contact",
+    about: {
+      label: "Om Claudia",
+      headline: "HR som fungerar i verkligheten.",
+      paragraphs: [
+        "Claudia Luna är en senior HR-ledare och rådgivare med omfattande erfarenhet av att stötta globala organisationer genom transformation, organisatorisk förändring och komplexa people-frågor i Europa.",
+        "Hon arbetar nära seniora ledare, arbetstagarrepresentanter och tvärfunktionella team för att skapa praktiska HR-lösningar som stödjer både affären och medarbetarna.",
+        "Hennes bakgrund inkluderar strategiskt HR-partnering, employee och labor relations, organisatorisk transformation, governance, ledarskapsrådgivning och digital HR.",
+        "Vid sidan av sitt HR-arbete är Claudia styrelseledamot i Verizon Sweden AB.",
+      ],
+      closing:
+        "Praktisk, affärsnära och fokuserad på att skapa meningsfulla resultat.",
+      linkedInCta: "Kontakta på LinkedIn",
+      portraitAlt: "Claudia Luna, senior HR-rådgivare",
     },
-    {
-      id: "interim",
-      icon: "interim" as const,
-      title: "Interim HR\nLeadership",
-      description:
-        "Providing senior HR leadership and stability during periods of change and growth.",
-      href: "#contact",
-    },
-    {
-      id: "ai-hr",
-      icon: "ai" as const,
-      title: "AI in HR & Digital\nTransformation",
-      description:
-        "Driving AI adoption and digital HR solutions for the future of work.",
-      href: "#contact",
-    },
-  ],
-} as const;
-
-export const experienceStrip = {
-  headline: "Experience across\ncomplex organizations",
-  items: [
-    {
-      title: "International Experience",
-      description: "Extensive HR experience across Europe.",
-      icon: "europe" as const,
-    },
-    {
-      title: "Board Level Perspective",
-      description: "Board Member experience & governance.",
-      icon: "board" as const,
-    },
-    {
-      title: "Transformation Expertise",
-      description: "Leading complex change & restructuring.",
-      icon: "transform" as const,
-    },
-    {
-      title: "People Focused",
-      description: "Strong partnerships with leaders & stakeholders.",
-      icon: "people" as const,
-    },
-  ],
-} as const;
-
-export const caseStudies = {
-  headline: "Selected experience",
-  items: [
-    {
-      id: "european-transformation",
-      title: "European Transformation Program",
-      description:
-        "Led and supported organizational transformation across multiple European markets, partnering with senior leaders and employee representatives.",
-      href: "#contact",
-      image: "/images/case-european-transformation.png",
-      imageAlt:
-        "Boardroom presentation on a European transformation roadmap",
-    },
-    {
-      id: "employee-relations",
-      title: "Complex Employee Relations",
-      description:
-        "Strategic support in complex employee and labor relations during organizational change, balancing business objectives and compliance.",
-      href: "#contact",
-      image: "/images/case-employee-relations.png",
-      imageAlt:
-        "Strategic advisory conversation on complex employee relations",
-    },
-    {
-      id: "ai-adoption-hr",
-      title: "AI Adoption in HR",
-      description:
-        "Supporting AI adoption and digital HR initiatives designed to improve efficiency, decision-making and employee experience.",
-      href: "#contact",
-      image: "/images/case-ai-adoption.png",
-      imageAlt: "People analytics dashboard supporting AI adoption in HR",
-    },
-  ],
-} as const;
-
-export const statement = {
-  quote:
-    "Transformation isn't only an organizational challenge. It's a people challenge.",
-  attribution: "Claudia Luna",
-} as const;
-
-export const about = {
-  headline: "Strategic HR experience. Business perspective.",
-  paragraphs: [
-    "Claudia Luna is a senior HR leader and advisor with extensive experience supporting global organizations through transformation, organizational change and strategic HR initiatives across Europe.",
-    "Her experience includes partnering with senior leadership, employee representatives and cross-functional stakeholders on complex transformation programs, organizational restructuring, governance and employee relations.",
-    "Alongside her HR leadership experience, Claudia serves as a Board Member of Verizon Sweden AB and has a strong interest in AI adoption, digital transformation and the future of HR.",
-  ],
-} as const;
-
-export const contact = {
-  headline: "Facing a people or\norganizational challenge?",
-  text: "Let's discuss how Claudia Luna Consulting can support your organization.",
-  cta: "Get in touch",
-} as const;
-
-export const insights = {
-  headline: "Insights",
-  intro: "Perspectives on people, transformation and the future of HR.",
-  items: [
-    {
-      slug: "why-successful-transformation-starts-with-people",
-      category: "Transformation",
-      title: "Why successful transformation starts with people",
-      description:
-        "Organizational transformation is often designed around structures, processes and targets. But sustainable change depends on something more fundamental — whether people understand, trust and can execute the change.",
-      image: "/images/insight-transformation-v2.png",
-      imageAlt:
-        "Empty modern boardroom with soft morning light and city view",
-      imagePosition: "center 45%",
-      body: [
-        "Organizational transformation is often designed around structures, processes and targets. These elements matter — but they are rarely what determines whether change endures.",
-        "Sustainable transformation depends on whether people understand the direction, trust the leadership behind it, and have the capacity to execute in practice. When that foundation is missing, even well-designed programmes struggle to deliver lasting impact.",
-        "A people-centred approach does not mean delaying decisions. It means aligning strategy, communication, leadership behaviour and workforce realities so change can be implemented with clarity and credibility.",
-        "For senior leaders, the practical question is not only what will change — but how people across the organisation will experience, interpret and carry that change forward.",
+    services: {
+      label: "Hur jag kan hjälpa",
+      headline: "Senior HR-stöd — från strategi till genomförande.",
+      intro:
+        "Jag stöttar bolag som behöver erfaren HR-ledning, specialiststöd eller en senior rådgivare som snabbt kan kliva in och skapa struktur.",
+      items: [
+        {
+          number: "01",
+          title: "Strategisk HR & interim ledarskap",
+          description:
+            "Senior HR-ledning och strategiskt stöd vid förändring, tillväxt eller transition.",
+          examples: [
+            "Interim Senior HRBP / HR Lead",
+            "HR-strategi",
+            "Workforce planning",
+            "Ledarskapsrådgivning",
+            "HR operating models",
+            "Governance",
+          ],
+        },
+        {
+          number: "02",
+          title: "Transformation & förändring",
+          description:
+            "Stöd till organisationer genom omstrukturering, organisatorisk förändring och komplex transformation.",
+          examples: [
+            "Organisatorisk transformation",
+            "Omstrukturering",
+            "Change management",
+            "Stakeholder alignment",
+            "Workforce change",
+            "Transformationsprogram",
+          ],
+        },
+        {
+          number: "03",
+          title: "Employee & labor relations",
+          description:
+            "Senior stöd i komplexa employee relations- och arbetsrättsliga frågor.",
+          examples: [
+            "Employee relations",
+            "Labor relations",
+            "Samverkan med fack/works council",
+            "Organisatoriska förändringar",
+            "Compliance",
+            "Komplexa medarbetarärenden",
+          ],
+        },
+        {
+          number: "04",
+          title: "AI, digital HR & future of work",
+          description:
+            "Hjälper HR-funktioner att använda teknik och AI på praktiska och ansvarsfulla sätt.",
+          examples: [
+            "AI-adoption i HR",
+            "HR-processförbättring",
+            "Digital HR",
+            "People analytics",
+            "Automatisering",
+            "Framtidens workforce",
+          ],
+        },
       ],
     },
-    {
-      slug: "leading-through-organizational-change",
-      category: "Leadership",
-      title: "Leading through organizational change",
-      description:
-        "Periods of change demand more from leaders than communication alone. Clarity, trust and consistency become critical when organizations and teams are navigating uncertainty.",
-      image: "/images/insight-leadership-v2.png",
-      imageAlt:
-        "Senior professionals walking in conversation through an office corridor",
-      imagePosition: "center 22%",
-      body: [
-        "Periods of organisational change place particular demands on leadership. Communication remains essential, but it is not enough on its own.",
-        "Teams look for clarity about what is known and what is still being decided. They also look for consistency between what leaders say and how leaders act — especially when uncertainty is high.",
-        "Trust is built through presence, honesty and follow-through. Leaders who can hold difficult conversations, listen carefully and remain steady under pressure create the conditions for people to stay engaged through transition.",
-        "Effective change leadership is therefore both strategic and deeply human: setting direction while supporting the people who must deliver it.",
+    credibility: {
+      headline: "Erfarenhet från komplexa, internationella organisationer.",
+      items: [
+        {
+          title: "Internationell HR",
+          description: "Erfarenhet av att stötta organisationer i Europa.",
+        },
+        {
+          title: "Styrelseperspektiv",
+          description: "Styrelsenivå inom governance och affärsperspektiv.",
+        },
+        {
+          title: "Transformation",
+          description:
+            "Erfarenhet av organisatorisk förändring och omstrukturering.",
+        },
+        {
+          title: "Business partnering",
+          description: "Nära partnerskap med seniora ledare och stakeholders.",
+        },
       ],
     },
-    {
-      slug: "ai-will-change-hr-the-question-is-how-we-use-it",
-      category: "Future of HR",
-      title: "AI will change HR. The question is how we use it.",
-      description:
-        "AI can improve efficiency, decision-making and employee experience — but successful adoption requires more than technology. HR has an important role in shaping how AI becomes part of the organization.",
-      image: "/images/insight-ai-hr-v2.png",
-      imageAlt:
-        "Notebook, pen and closed laptop on a refined executive desk",
-      imagePosition: "center 65%",
-      body: [
-        "Artificial intelligence will reshape many aspects of HR work — from administration and analytics to how employees access support and information.",
-        "The opportunity is significant: better efficiency, stronger decision-making and improved employee experience. The risk is equally real if technology is introduced without clear purpose, governance and human judgement.",
-        "Successful adoption is not only a systems question. It is an organisational one. HR has an important role in shaping how AI is used, where human oversight remains essential, and how people are supported through the change.",
-        "The organisations that benefit most will treat AI as part of a broader people and operating-model agenda — not as a stand-alone technology project.",
+    workingWith: {
+      headline: "När är det rätt att ta in mig?",
+      items: [
+        {
+          title: "Ni behöver senior HR-kompetens snabbt",
+          description:
+            "En erfaren HR-partner kan kliva in utan en lång rekryteringsprocess.",
+        },
+        {
+          title: "Er organisation förändras",
+          description:
+            "Stöd vid omstrukturering, transformation eller organisatorisk tillväxt.",
+        },
+        {
+          title: "En people-fråga har blivit komplex",
+          description:
+            "Senior vägledning i employee relations, ledarskap eller organisatoriska frågor.",
+        },
+        {
+          title: "Ni behöver både strategi och genomförande",
+          description:
+            "Stöd som inte stannar vid rekommendationer — utan hjälper till att driva arbetet framåt.",
+        },
       ],
     },
-  ],
+    contact: {
+      headline: "Har ni en HR-utmaning att lösa?",
+      text: "Oavsett om ni behöver interim HR-stöd, strategisk rådgivning eller hjälp att navigera organisatorisk förändring — låt oss prata.",
+      cta: "Mejla Claudia",
+      emailLabel: "E-post",
+      linkedInLabel: "LinkedIn",
+      linkedInCta: "Kontakta",
+      form: {
+        name: "Namn",
+        company: "Företag",
+        email: "E-post",
+        message: "Meddelande",
+        submit: "Skicka meddelande",
+        sending: "Skickar...",
+        successTitle: "Meddelandet är skickat",
+        successText:
+          "Tack för att du hörde av dig. Claudia återkommer så snart som möjligt.",
+        sendAnother: "Skicka ett nytt meddelande",
+        errors: {
+          name: "Ange ditt namn.",
+          company: "Ange ditt företag.",
+          emailRequired: "Ange din e-postadress.",
+          emailInvalid: "Ange en giltig e-postadress.",
+          messageRequired: "Berätta hur jag kan hjälpa.",
+          messageShort: "Ge gärna lite mer information.",
+          generic:
+            "Något gick fel. Försök igen eller mejla direkt.",
+        },
+      },
+    },
+    footer: {
+      privacy: "Integritetspolicy",
+      email: "E-post",
+    },
+    insights: {
+      headline: "Insikter",
+      intro: "Perspektiv på people, transformation och framtidens HR.",
+      backHome: "Tillbaka till startsidan",
+      contactCta: "Kontakta Claudia",
+      items: [
+        {
+          ...sharedInsightMeta.transformation,
+          category: "Transformation",
+          title: "Varför framgångsrik transformation börjar med people",
+          description:
+            "Organisatorisk transformation designas ofta kring strukturer, processer och mål. Men hållbar förändring beror på något mer grundläggande — om människor förstår, litar på och kan genomföra förändringen.",
+          imageAlt:
+            "Tomt modernt styrelserum med mjukt morgonljus och stadsutsikt",
+          body: [
+            "Organisatorisk transformation designas ofta kring strukturer, processer och mål. Dessa delar är viktiga — men de avgör sällan om förändringen består.",
+            "Hållbar transformation beror på om människor förstår riktningen, litar på ledarskapet bakom den och har kapacitet att genomföra i praktiken. När den grunden saknas får även välutformade program svårt att ge bestående effekt.",
+            "Ett people-centrerat förhållningssätt betyder inte att skjuta upp beslut. Det betyder att samordna strategi, kommunikation, ledarbeteenden och verklighet i organisationen så att förändringen kan genomföras med tydlighet och trovärdighet.",
+            "För seniora ledare är den praktiska frågan inte bara vad som ska förändras — utan hur människor i organisationen kommer att uppleva, tolka och bära förändringen vidare.",
+          ],
+        },
+        {
+          ...sharedInsightMeta.leadership,
+          category: "Ledarskap",
+          title: "Att leda genom organisatorisk förändring",
+          description:
+            "Perioder av förändring kräver mer av ledare än enbart kommunikation. Tydlighet, tillit och konsekvens blir avgörande när organisationer och team navigerar osäkerhet.",
+          imageAlt:
+            "Seniora yrkespersoner i samtal medan de går genom en kontorskorridor",
+          body: [
+            "Perioder av organisatorisk förändring ställer särskilda krav på ledarskap. Kommunikation är fortsatt viktig, men räcker inte i sig.",
+            "Team söker tydlighet om vad som är känt och vad som fortfarande beslutas. De söker också konsekvens mellan vad ledare säger och hur ledare agerar — särskilt när osäkerheten är hög.",
+            "Tillit byggs genom närvaro, ärlighet och uppföljning. Ledare som kan hålla svåra samtal, lyssna noga och behålla lugnet under press skapar förutsättningar för engagemang genom transitionen.",
+            "Effektivt förändringsledarskap är därför både strategiskt och djupt mänskligt: att sätta riktning samtidigt som man stöttar dem som ska leverera den.",
+          ],
+        },
+        {
+          ...sharedInsightMeta.ai,
+          category: "Framtidens HR",
+          title: "AI kommer att förändra HR. Frågan är hur vi använder det.",
+          description:
+            "AI kan förbättra effektivitet, beslutsfattande och medarbetarupplevelse — men framgångsrik adoption kräver mer än teknik. HR har en viktig roll i hur AI blir en del av organisationen.",
+          imageAlt:
+            "Anteckningsbok, penna och stängd laptop på ett sofistikerat skrivbord",
+          body: [
+            "Artificiell intelligens kommer att omforma många delar av HR-arbetet — från administration och analys till hur medarbetare får stöd och information.",
+            "Möjligheten är stor: bättre effektivitet, starkare beslutsfattande och förbättrad medarbetarupplevelse. Risken är lika verklig om teknik införs utan tydligt syfte, governance och mänskligt omdöme.",
+            "Framgångsrik adoption är inte bara en systemfråga. Det är en organisatorisk fråga. HR har en viktig roll i hur AI används, var mänsklig översyn fortfarande krävs och hur människor stöttas genom förändringen.",
+            "Organisationer som får ut mest kommer att behandla AI som en del av en bredare people- och operating model-agenda — inte som ett fristående teknikprojekt.",
+          ],
+        },
+      ],
+    },
+    a11y: {
+      skipToContent: "Hoppa till innehåll",
+    },
+  },
+  en: {
+    navLinks: [
+      { label: "Home", href: "#top" },
+      { label: "About", href: "#about" },
+      { label: "Services", href: "#services" },
+      { label: "Contact", href: "#contact" },
+    ],
+    header: {
+      contactCta: "Contact Claudia",
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+    },
+    hero: {
+      pill: "Senior HR · Transformation · Advisory",
+      headline: "Senior HR expertise when your organization needs it most.",
+      headlineAccent: "needs it most.",
+      supporting:
+        "Strategic and hands-on HR support for organizations navigating change, growth and complex people challenges.",
+      body: "Claudia Luna Consulting supports leaders and organizations with senior HR expertise across transformation, employee relations, strategic HR and interim leadership.",
+      primaryCta: "Let's talk",
+      secondaryCta: "View services",
+      portraitAlt:
+        "Professional portrait of Claudia Luna, founder of Claudia Luna Consulting",
+    },
+    about: {
+      label: "About Claudia",
+      headline: "HR that works in the real world.",
+      paragraphs: [
+        "Claudia Luna is a senior HR leader and advisor with extensive experience supporting global organizations through transformation, organizational change and complex people matters across Europe.",
+        "She works closely with senior leaders, employee representatives and cross-functional teams to create practical HR solutions that support both the business and its people.",
+        "Her background includes strategic HR partnering, employee and labor relations, organizational transformation, governance, leadership advisory and digital HR.",
+        "Alongside her HR role, Claudia serves as a Board Member of Verizon Sweden AB.",
+      ],
+      closing:
+        "Practical, business-minded and focused on creating meaningful results.",
+      linkedInCta: "Connect on LinkedIn",
+      portraitAlt: "Claudia Luna, senior HR advisor",
+    },
+    services: {
+      label: "How I can help",
+      headline: "Senior HR support — from strategy to execution.",
+      intro:
+        "I support companies that need experienced HR leadership, specialist support or a senior advisor who can step in quickly and create structure.",
+      items: [
+        {
+          number: "01",
+          title: "Strategic HR & Interim Leadership",
+          description:
+            "Senior HR leadership and strategic support during change, growth or transition.",
+          examples: [
+            "Interim Senior HRBP / HR Lead",
+            "HR strategy",
+            "Workforce planning",
+            "Leadership advisory",
+            "HR operating models",
+            "Governance",
+          ],
+        },
+        {
+          number: "02",
+          title: "Transformation & Change",
+          description:
+            "Supporting organizations through restructuring, organizational change and complex transformation.",
+          examples: [
+            "Organizational transformation",
+            "Restructuring",
+            "Change management",
+            "Stakeholder alignment",
+            "Workforce change",
+            "Transformation programs",
+          ],
+        },
+        {
+          number: "03",
+          title: "Employee & Labor Relations",
+          description:
+            "Senior support in complex employee relations and labor matters.",
+          examples: [
+            "Employee relations",
+            "Labor relations",
+            "Works council collaboration",
+            "Organizational changes",
+            "Compliance",
+            "Complex employee matters",
+          ],
+        },
+        {
+          number: "04",
+          title: "AI, Digital HR & Future of Work",
+          description:
+            "Helping HR functions use technology and AI in practical, responsible ways.",
+          examples: [
+            "AI adoption in HR",
+            "HR process improvement",
+            "Digital HR",
+            "People analytics",
+            "Automation",
+            "Future workforce",
+          ],
+        },
+      ],
+    },
+    credibility: {
+      headline: "Experience from complex, international organizations.",
+      items: [
+        {
+          title: "International HR",
+          description: "Experience supporting organizations across Europe.",
+        },
+        {
+          title: "Board perspective",
+          description: "Board-level governance and business perspective.",
+        },
+        {
+          title: "Transformation",
+          description:
+            "Experience navigating organizational change and restructuring.",
+        },
+        {
+          title: "Business partnering",
+          description: "Close partnership with senior leaders and stakeholders.",
+        },
+      ],
+    },
+    workingWith: {
+      headline: "When does it make sense to bring me in?",
+      items: [
+        {
+          title: "You need senior HR expertise quickly",
+          description:
+            "An experienced HR partner can step in without a long recruitment process.",
+        },
+        {
+          title: "Your organization is changing",
+          description:
+            "Support through restructuring, transformation or organizational growth.",
+        },
+        {
+          title: "A people issue has become complex",
+          description:
+            "Senior guidance in employee relations, leadership or organizational matters.",
+        },
+        {
+          title: "You need both strategy and execution",
+          description:
+            "Support that does not stop at recommendations — but helps move the work forward.",
+        },
+      ],
+    },
+    contact: {
+      headline: "Have an HR challenge to solve?",
+      text: "Whether you need interim HR support, strategic advice or help navigating organizational change — let's talk.",
+      cta: "Email Claudia",
+      emailLabel: "Email",
+      linkedInLabel: "LinkedIn",
+      linkedInCta: "Connect",
+      form: {
+        name: "Name",
+        company: "Company",
+        email: "Email",
+        message: "Message",
+        submit: "Send message",
+        sending: "Sending...",
+        successTitle: "Message sent",
+        successText:
+          "Thank you for reaching out. Claudia will respond as soon as possible.",
+        sendAnother: "Send another message",
+        errors: {
+          name: "Please enter your name.",
+          company: "Please enter your company.",
+          emailRequired: "Please enter your email.",
+          emailInvalid: "Please enter a valid email address.",
+          messageRequired: "Please tell us how we can help.",
+          messageShort: "Please provide a little more detail.",
+          generic:
+            "Something went wrong. Please try again or email directly.",
+        },
+      },
+    },
+    footer: {
+      privacy: "Privacy Policy",
+      email: "Email",
+    },
+    insights: {
+      headline: "Insights",
+      intro: "Perspectives on people, transformation and the future of HR.",
+      backHome: "Back home",
+      contactCta: "Contact Claudia",
+      items: [
+        {
+          ...sharedInsightMeta.transformation,
+          category: "Transformation",
+          title: "Why successful transformation starts with people",
+          description:
+            "Organizational transformation is often designed around structures, processes and targets. But sustainable change depends on something more fundamental — whether people understand, trust and can execute the change.",
+          imageAlt:
+            "Empty modern boardroom with soft morning light and city view",
+          body: [
+            "Organizational transformation is often designed around structures, processes and targets. These elements matter — but they are rarely what determines whether change endures.",
+            "Sustainable transformation depends on whether people understand the direction, trust the leadership behind it, and have the capacity to execute in practice. When that foundation is missing, even well-designed programmes struggle to deliver lasting impact.",
+            "A people-centred approach does not mean delaying decisions. It means aligning strategy, communication, leadership behaviour and workforce realities so change can be implemented with clarity and credibility.",
+            "For senior leaders, the practical question is not only what will change — but how people across the organisation will experience, interpret and carry that change forward.",
+          ],
+        },
+        {
+          ...sharedInsightMeta.leadership,
+          category: "Leadership",
+          title: "Leading through organizational change",
+          description:
+            "Periods of change demand more from leaders than communication alone. Clarity, trust and consistency become critical when organizations and teams are navigating uncertainty.",
+          imageAlt:
+            "Senior professionals walking in conversation through an office corridor",
+          body: [
+            "Periods of organisational change place particular demands on leadership. Communication remains essential, but it is not enough on its own.",
+            "Teams look for clarity about what is known and what is still being decided. They also look for consistency between what leaders say and how leaders act — especially when uncertainty is high.",
+            "Trust is built through presence, honesty and follow-through. Leaders who can hold difficult conversations, listen carefully and remain steady under pressure create the conditions for people to stay engaged through transition.",
+            "Effective change leadership is therefore both strategic and deeply human: setting direction while supporting the people who must deliver it.",
+          ],
+        },
+        {
+          ...sharedInsightMeta.ai,
+          category: "Future of HR",
+          title: "AI will change HR. The question is how we use it.",
+          description:
+            "AI can improve efficiency, decision-making and employee experience — but successful adoption requires more than technology. HR has an important role in shaping how AI becomes part of the organization.",
+          imageAlt:
+            "Notebook, pen and closed laptop on a refined executive desk",
+          body: [
+            "Artificial intelligence will reshape many aspects of HR work — from administration and analytics to how employees access support and information.",
+            "The opportunity is significant: better efficiency, stronger decision-making and improved employee experience. The risk is equally real if technology is introduced without clear purpose, governance and human judgement.",
+            "Successful adoption is not only a systems question. It is an organisational one. HR has an important role in shaping how AI is used, where human oversight remains essential, and how people are supported through the change.",
+            "The organisations that benefit most will treat AI as part of a broader people and operating-model agenda — not as a stand-alone technology project.",
+          ],
+        },
+      ],
+    },
+    a11y: {
+      skipToContent: "Skip to content",
+    },
+  },
 } as const;
 
-export const footer = {
-  legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
-} as const;
+export type AppContent = (typeof content)[Locale];
+
+export function getInsightBySlug(locale: Locale, slug: string) {
+  return content[locale].insights.items.find((item) => item.slug === slug);
+}
+
+export const insightSlugs = content.en.insights.items.map((item) => item.slug);

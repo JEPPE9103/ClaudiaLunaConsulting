@@ -1,22 +1,18 @@
 import { About } from "@/components/About";
-import { CaseStudies } from "@/components/CaseStudies";
 import { Contact } from "@/components/Contact";
 import { Experience } from "@/components/Experience";
-import { Expertise } from "@/components/Expertise";
 import { Hero } from "@/components/Hero";
-import { Insights } from "@/components/Insights";
-import { Statement } from "@/components/Statement";
+import { Services } from "@/components/Services";
+import { WorkingWith } from "@/components/WorkingWith";
 
 export default function Home() {
   return (
     <main id="main-content">
       <Hero />
-      <Expertise />
-      <Experience />
-      <CaseStudies />
-      <Statement />
-      <Insights />
       <About />
+      <Services />
+      <Experience />
+      <WorkingWith />
       <Contact />
     </main>
   );

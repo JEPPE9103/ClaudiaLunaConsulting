@@ -1,40 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --navy: #101d29;
-  --navy-deep: #0b1520;
-  --navy-soft: #1a2a38;
-  --ivory: #f7f4ee;
-  --ivory-warm: #fbfaf7;
-  --champagne: #b9955a;
-  --champagne-soft: #c9ae86;
-  --charcoal: #101d29;
-  --ink: #1c2833;
-  --muted: #5e6670;
-  --line: rgba(16, 29, 41, 0.12);
-  --line-soft: rgba(16, 29, 41, 0.08);
-  --line-light: rgba(247, 244, 238, 0.16);
+  --ivory: #f4f0e9;
+  --sand: #e5ded4;
+  --charcoal: #292f31;
+  --charcoal-soft: #3a4245;
+  --dark: #293033;
+  --terracotta: #b86f58;
+  --terracotta-soft: #c7846e;
+  --muted: #5f6668;
+  --line: rgba(41, 47, 49, 0.12);
+  --line-light: rgba(244, 240, 233, 0.16);
   --background: var(--ivory);
   --foreground: var(--charcoal);
 }
 
 @theme inline {
-  --color-navy: var(--navy);
-  --color-navy-deep: var(--navy-deep);
-  --color-navy-soft: var(--navy-soft);
   --color-ivory: var(--ivory);
-  --color-ivory-warm: var(--ivory-warm);
-  --color-champagne: var(--champagne);
-  --color-champagne-soft: var(--champagne-soft);
+  --color-sand: var(--sand);
   --color-charcoal: var(--charcoal);
-  --color-ink: var(--ink);
+  --color-charcoal-soft: var(--charcoal-soft);
+  --color-dark: var(--dark);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-soft: var(--terracotta-soft);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-line-soft: var(--line-soft);
   --color-line-light: var(--line-light);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
 }
 
@@ -64,34 +57,21 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--champagne) 32%, transparent);
-  color: var(--navy);
+  background: color-mix(in srgb, var(--terracotta) 28%, transparent);
+  color: var(--charcoal);
 }
 
 :focus-visible {
-  outline: 1.5px solid var(--champagne);
+  outline: 1.5px solid var(--terracotta);
   outline-offset: 3px;
-}
-
-.editorial-grid {
-  background-image:
-    linear-gradient(to right, rgba(16, 29, 41, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(16, 29, 41, 0.04) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-.gold-rule {
-  width: 2.5rem;
-  height: 1px;
-  background: var(--champagne);
 }
 
 .fade-in {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(10px);
   transition:
-    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fade-in.is-visible {
@@ -102,22 +82,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .fade-in {
     opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-.img-zoom {
-  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.group:hover .img-zoom {
-  transform: scale(1.03);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .img-zoom,
-  .group:hover .img-zoom {
     transform: none;
     transition: none;
   }
