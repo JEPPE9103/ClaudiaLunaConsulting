@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
 import { cn } from "@/lib/cn";
@@ -32,31 +33,31 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 md:px-8">
-        <a href="/#top" className="shrink-0 text-[15px] font-semibold tracking-tight">
+        <Link href="/#top" className="shrink-0 text-[15px] font-semibold tracking-tight">
           Claudia <span className="text-terracotta">Luna</span> Consulting
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {t.navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href.startsWith("#") ? `/${link.href}` : link.href}
               className="text-[11px] font-medium tracking-[0.16em] text-charcoal/70 uppercase transition-colors duration-300 hover:text-charcoal"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
 
-          <a
+          <Link
             href="/#contact"
             className="hidden rounded-full bg-charcoal px-4 py-2.5 text-[10px] font-semibold tracking-[0.14em] text-ivory uppercase transition-colors hover:bg-charcoal-soft sm:inline-flex"
           >
             {t.header.contactCta}
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -96,22 +97,22 @@ export function Header() {
       >
         <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4" aria-label="Mobile">
           {t.navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href.startsWith("#") ? `/${link.href}` : link.href}
               className="border-b border-line py-4 text-[12px] font-medium tracking-[0.16em] text-charcoal uppercase"
               onClick={() => setOpen(false)}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
-          <a
+          <Link
             href="/#contact"
             className="mt-5 inline-flex items-center justify-center rounded-full bg-charcoal px-5 py-3.5 text-[11px] font-semibold tracking-[0.14em] text-ivory uppercase"
             onClick={() => setOpen(false)}
           >
             {t.header.contactCta}
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

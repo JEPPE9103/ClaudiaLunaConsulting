@@ -6,8 +6,12 @@ export const locales: Locale[] = ["sv", "en"];
 export const site = {
   name: "Claudia Luna Consulting",
   shortName: "Claudia Luna",
-  email: "hello@claudialunaconsulting.com",
-  linkedIn: "https://www.linkedin.com/in/", // Replace with Claudia's LinkedIn profile URL
+  email: "claudialunaconsulting@gmail.com",
+  /**
+   * Set to Claudia's real LinkedIn profile URL when available.
+   * Empty string hides LinkedIn CTAs site-wide.
+   */
+  linkedIn: "",
   copyright: "© Claudia Luna Consulting",
 } as const;
 
@@ -193,10 +197,13 @@ export const content = {
         message: "Meddelande",
         submit: "Skicka meddelande",
         sending: "Skickar...",
-        successTitle: "Meddelandet är skickat",
+        successTitle: "Meddelandet är mottaget",
         successText:
           "Tack för att du hörde av dig. Claudia återkommer så snart som möjligt.",
         sendAnother: "Skicka ett nytt meddelande",
+        privacyNote: "Genom att skicka godkänner du hur vi hanterar dina uppgifter.",
+        privacyLink: "Läs mer om integritet",
+        emailFallback: "Mejla istället",
         errors: {
           name: "Ange ditt namn.",
           company: "Ange ditt företag.",
@@ -204,14 +211,61 @@ export const content = {
           emailInvalid: "Ange en giltig e-postadress.",
           messageRequired: "Berätta hur jag kan hjälpa.",
           messageShort: "Ge gärna lite mer information.",
+          messageLong: "Meddelandet är för långt. Korta gärna ner det.",
+          rateLimited:
+            "För många försök just nu. Vänta en stund eller mejla direkt.",
+          notConfigured:
+            "Formuläret är tillfälligt otillgängligt. Mejla gärna direkt.",
           generic:
-            "Något gick fel. Försök igen eller mejla direkt.",
+            "Meddelandet kunde inte skickas. Försök igen eller mejla direkt.",
         },
       },
     },
     footer: {
       privacy: "Integritetspolicy",
       email: "E-post",
+    },
+    privacy: {
+      title: "Integritetspolicy",
+      updatedLabel: "Senast uppdaterad",
+      updatedDate: "mars 2026",
+      intro:
+        "Denna information beskriver hur Claudia Luna Consulting hanterar personuppgifter som lämnas via kontaktformuläret och e-post på webbplatsen.",
+      sections: [
+        {
+          heading: "Personuppgiftsansvarig",
+          body: "Claudia Luna Consulting är personuppgiftsansvarig för de uppgifter som samlas in via webbplatsen. Kontakt: claudialunaconsulting@gmail.com.",
+        },
+        {
+          heading: "Vilka uppgifter samlas in?",
+          body: "Via kontaktformuläret kan namn, företag, e-postadress och meddelandetext samlas in. Om du mejlar direkt behandlas de uppgifter du själv skickar.",
+        },
+        {
+          heading: "Varför samlas uppgifterna in?",
+          body: "Uppgifterna används för att besvara din förfrågan och föra en affärsrelaterad dialog. De används inte för marknadsföring utan separat medgivande.",
+        },
+        {
+          heading: "Hur behandlas förfrågningar?",
+          body: "Formulärinnehåll skickas via e-postleverantören Resend till vår verksamhetsinkorg. Svar sker normalt via e-post. Leverantörens mottagande av ett meddelande innebär inte garanterad leverans till inkorg.",
+        },
+        {
+          heading: "Tjänsteleverantörer",
+          body: "Webbplatsen kan hostas via Vercel. E-postleverans sker via Resend. Personuppgifter kan därmed behandlas av dessa leverantörer i den utsträckning som krävs för att tillhandahålla tjänsten.",
+        },
+        {
+          heading: "Lagring",
+          body: "Förfrågningar sparas i e-postsystemet så länge det behövs för att hantera dialogen och eventuell uppföljning. Exakt lagringstid bör bekräftas av verksamhetsansvarig utifrån affärsbehov och rättsliga krav.",
+        },
+        {
+          heading: "Dina rättigheter",
+          body: "Du kan begära tillgång till, rättelse av eller radering av personuppgifter som rör dig, samt invända mot behandling där tillämpligt. Kontakta claudialunaconsulting@gmail.com för integritetsärenden.",
+        },
+        {
+          heading: "Uppgifter som behöver bekräftas",
+          body: "Organisationsnummer, fysisk adress, laglig grundformulering och exakta retentionstider behöver bekräftas av verksamhetsansvarig innan denna sida betraktas som slutgiltig juridisk text.",
+        },
+      ],
+      backHome: "Tillbaka till startsidan",
     },
     insights: {
       headline: "Insikter",
@@ -433,10 +487,13 @@ export const content = {
         message: "Message",
         submit: "Send message",
         sending: "Sending...",
-        successTitle: "Message sent",
+        successTitle: "Message received",
         successText:
           "Thank you for reaching out. Claudia will respond as soon as possible.",
         sendAnother: "Send another message",
+        privacyNote: "By submitting, you acknowledge how we handle your details.",
+        privacyLink: "Read the privacy information",
+        emailFallback: "Email instead",
         errors: {
           name: "Please enter your name.",
           company: "Please enter your company.",
@@ -444,14 +501,61 @@ export const content = {
           emailInvalid: "Please enter a valid email address.",
           messageRequired: "Please tell us how we can help.",
           messageShort: "Please provide a little more detail.",
+          messageLong: "Your message is too long. Please shorten it.",
+          rateLimited:
+            "Too many attempts right now. Please wait a moment or email directly.",
+          notConfigured:
+            "The form is temporarily unavailable. Please email directly.",
           generic:
-            "Something went wrong. Please try again or email directly.",
+            "Your message could not be sent. Please try again or email directly.",
         },
       },
     },
     footer: {
       privacy: "Privacy Policy",
       email: "Email",
+    },
+    privacy: {
+      title: "Privacy information",
+      updatedLabel: "Last updated",
+      updatedDate: "March 2026",
+      intro:
+        "This page explains how Claudia Luna Consulting handles personal data submitted through the website contact form and email.",
+      sections: [
+        {
+          heading: "Data controller",
+          body: "Claudia Luna Consulting is the controller for personal data collected via this website. Contact: claudialunaconsulting@gmail.com.",
+        },
+        {
+          heading: "What data is collected?",
+          body: "Through the contact form we may collect name, company, email address and message content. If you email us directly, we process the information you choose to send.",
+        },
+        {
+          heading: "Why is it collected?",
+          body: "The data is used to respond to your inquiry and continue a business-related conversation. It is not used for marketing without separate consent.",
+        },
+        {
+          heading: "How inquiries are processed",
+          body: "Form submissions are delivered via the email provider Resend to our business inbox. Replies are normally sent by email. Provider acceptance of a message is not a guarantee of final inbox delivery.",
+        },
+        {
+          heading: "Service providers",
+          body: "The website may be hosted by Vercel. Email delivery is handled by Resend. Personal data may therefore be processed by these providers as needed to provide the service.",
+        },
+        {
+          heading: "Retention",
+          body: "Inquiries are kept in the email system for as long as needed to handle the conversation and any follow-up. Exact retention periods should be confirmed by the business owner based on operational needs and legal requirements.",
+        },
+        {
+          heading: "Your rights",
+          body: "You may request access to, correction of, or deletion of personal data relating to you, and object to processing where applicable. Contact claudialunaconsulting@gmail.com for privacy requests.",
+        },
+        {
+          heading: "Details requiring confirmation",
+          body: "Company registration number, physical address, precise legal bases and exact retention periods should be confirmed by the business owner before this page is treated as final legal text.",
+        },
+      ],
+      backHome: "Back to home",
     },
     insights: {
       headline: "Insights",

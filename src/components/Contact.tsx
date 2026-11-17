@@ -1,10 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { useLanguage } from "@/components/LanguageProvider";
 import { site } from "@/data/content";
 import { cn } from "@/lib/cn";
+import { CONTACT_LIMITS } from "@/lib/contact-limits";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -15,21 +16,38 @@ type FieldErrors = {
   message?: string;
 };
 
+type FormValues = {
+  name: string;
+  company: string;
+  email: string;
+  message: string;
+};
+
+const emptyForm: FormValues = {
+  name: "",
+  company: "",
+  email: "",
+  message: "",
+};
+
 export function Contact() {
   const { t } = useLanguage();
   const contact = t.contact;
   const formCopy = contact.form;
+  const honeypotId = useId();
+  const formStartedAt = useRef(0);
+  const submittingRef = useRef(false);
+
+  useEffect(() => {
+    formStartedAt.current = Date.now();
+  }, []);
 
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
+  const [values, setValues] = useState<FormValues>(emptyForm);
 
-  function validate(form: {
-    name: string;
-    company: string;
-    email: string;
-    message: string;
-  }): FieldErrors {
+  function validate(form: FormValues): FieldErrors {
     const next: FieldErrors = {};
     if (!form.name.trim()) next.name = formCopy.errors.name;
     if (!form.company.trim()) next.company = formCopy.errors.company;
@@ -40,14 +58,29 @@ export function Contact() {
     }
     if (!form.message.trim()) {
       next.message = formCopy.errors.messageRequired;
-    } else if (form.message.trim().length < 10) {
+    } else if (form.message.trim().length < CONTACT_LIMITS.minMessage) {
       next.message = formCopy.errors.messageShort;
+    } else if (form.message.trim().length > CONTACT_LIMITS.message) {
+      next.message = formCopy.errors.messageLong;
     }
     return next;
   }
 
+  function mapApiError(code: string | undefined) {
+    switch (code) {
+      case "rate_limited":
+        return formCopy.errors.rateLimited;
+      case "not_configured":
+        return formCopy.errors.notConfigured;
+      default:
+        return formCopy.errors.generic;
+    }
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submittingRef.current || state === "submitting") return;
+
     setFormError(null);
 
     const formData = new FormData(event.currentTarget);
@@ -56,7 +89,16 @@ export function Contact() {
       company: String(formData.get("company") ?? ""),
       email: String(formData.get("email") ?? ""),
       message: String(formData.get("message") ?? ""),
+      website: String(formData.get("website") ?? ""),
+      formStartedAt: formStartedAt.current,
     };
+
+    setValues({
+      name: payload.name,
+      company: payload.company,
+      email: payload.email,
+      message: payload.message,
+    });
 
     const nextErrors = validate(payload);
     setErrors(nextErrors);
@@ -65,7 +107,9 @@ export function Contact() {
       return;
     }
 
+    submittingRef.current = true;
     setState("submitting");
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -73,18 +117,30 @@ export function Contact() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error("Request failed");
+      const data = (await response.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+      } | null;
+
+      if (!response.ok || !data?.ok) {
+        setState("error");
+        setFormError(mapApiError(data?.error));
+        return;
       }
 
       setState("success");
-      event.currentTarget.reset();
+      setValues(emptyForm);
       setErrors({});
+      formStartedAt.current = Date.now(); // reset timer for a subsequent send
     } catch {
       setState("error");
       setFormError(formCopy.errors.generic);
+    } finally {
+      submittingRef.current = false;
     }
   }
+
+  const showLinkedIn = Boolean(site.linkedIn);
 
   return (
     <section
@@ -116,19 +172,21 @@ export function Contact() {
                 {site.email}
               </a>
             </div>
-            <div>
-              <p className="text-[10px] font-semibold tracking-[0.16em] text-ivory/50 uppercase">
-                {contact.linkedInLabel}
-              </p>
-              <a
-                href={site.linkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 inline-flex items-center gap-2 text-sm transition-colors hover:text-terracotta-soft"
-              >
-                {contact.linkedInCta} <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {showLinkedIn ? (
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.16em] text-ivory/50 uppercase">
+                  {contact.linkedInLabel}
+                </p>
+                <a
+                  href={site.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-2 text-sm transition-colors hover:text-terracotta-soft"
+                >
+                  {contact.linkedInCta} <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            ) : null}
           </div>
 
           <a
@@ -160,12 +218,21 @@ export function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="space-y-5">
+              <form
+                onSubmit={onSubmit}
+                noValidate
+                className="relative space-y-5"
+              >
                 <Field
                   id="name"
                   label={formCopy.name}
                   name="name"
                   autoComplete="name"
+                  maxLength={CONTACT_LIMITS.name}
+                  value={values.name}
+                  onChange={(value) =>
+                    setValues((current) => ({ ...current, name: value }))
+                  }
                   error={errors.name}
                 />
                 <Field
@@ -173,6 +240,11 @@ export function Contact() {
                   label={formCopy.company}
                   name="company"
                   autoComplete="organization"
+                  maxLength={CONTACT_LIMITS.company}
+                  value={values.company}
+                  onChange={(value) =>
+                    setValues((current) => ({ ...current, company: value }))
+                  }
                   error={errors.company}
                 />
                 <Field
@@ -181,6 +253,11 @@ export function Contact() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  maxLength={CONTACT_LIMITS.email}
+                  value={values.email}
+                  onChange={(value) =>
+                    setValues((current) => ({ ...current, email: value }))
+                  }
                   error={errors.email}
                 />
                 <Field
@@ -188,17 +265,52 @@ export function Contact() {
                   label={formCopy.message}
                   name="message"
                   as="textarea"
+                  maxLength={CONTACT_LIMITS.message}
+                  value={values.message}
+                  onChange={(value) =>
+                    setValues((current) => ({ ...current, message: value }))
+                  }
                   error={errors.message}
                 />
 
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden opacity-0"
+                >
+                  <label htmlFor={honeypotId}>Website</label>
+                  <input
+                    id={honeypotId}
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 {formError ? (
-                  <p
+                  <div
                     role="alert"
                     className="rounded-xl border border-red-200/20 bg-red-950/30 px-4 py-3 text-sm text-red-100"
                   >
-                    {formError}
-                  </p>
+                    <p>{formError}</p>
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="mt-2 inline-block text-[11px] font-semibold tracking-[0.12em] uppercase underline-offset-4 hover:underline"
+                    >
+                      {formCopy.emailFallback}
+                    </a>
+                  </div>
                 ) : null}
+
+                <p className="text-xs leading-relaxed text-ivory/50">
+                  {formCopy.privacyNote}{" "}
+                  <a
+                    href="/privacy"
+                    className="underline-offset-4 hover:text-ivory hover:underline"
+                  >
+                    {formCopy.privacyLink}
+                  </a>
+                </p>
 
                 <button
                   type="submit"
@@ -228,6 +340,9 @@ type FieldProps = {
   type?: string;
   autoComplete?: string;
   as?: "input" | "textarea";
+  maxLength?: number;
+  value: string;
+  onChange: (value: string) => void;
   error?: string;
 };
 
@@ -238,6 +353,9 @@ function Field({
   type = "text",
   autoComplete,
   as = "input",
+  maxLength,
+  value,
+  onChange,
   error,
 }: FieldProps) {
   const shared =
@@ -256,6 +374,9 @@ function Field({
           id={id}
           name={name}
           rows={4}
+          maxLength={maxLength}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
           className={cn(shared, "resize-y")}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${id}-error` : undefined}
@@ -266,6 +387,9 @@ function Field({
           name={name}
           type={type}
           autoComplete={autoComplete}
+          maxLength={maxLength}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
           className={shared}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${id}-error` : undefined}

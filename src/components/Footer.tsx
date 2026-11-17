@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { site } from "@/data/content";
 
 export function Footer() {
   const { t } = useLanguage();
+  const showLinkedIn = Boolean(site.linkedIn);
 
   return (
     <footer className="bg-dark text-ivory">
@@ -15,16 +17,18 @@ export function Footer() {
 
         <nav aria-label="Footer">
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[12px] text-ivory/65">
-            <li>
-              <a
-                href={site.linkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-ivory"
-              >
-                LinkedIn
-              </a>
-            </li>
+            {showLinkedIn ? (
+              <li>
+                <a
+                  href={site.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-ivory"
+                >
+                  LinkedIn
+                </a>
+              </li>
+            ) : null}
             <li>
               <a
                 href={`mailto:${site.email}`}
@@ -34,9 +38,9 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="#" className="transition-colors hover:text-ivory">
+              <Link href="/privacy" className="transition-colors hover:text-ivory">
                 {t.footer.privacy}
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

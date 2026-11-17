@@ -48,14 +48,16 @@ export function About() {
           <p className="mt-6 max-w-xl text-[15px] font-medium leading-relaxed text-charcoal">
             {about.closing}
           </p>
-          <a
-            href={site.linkedIn}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-8 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] text-charcoal uppercase transition-all duration-300 hover:gap-3 hover:text-terracotta"
-          >
-            {about.linkedInCta} <span aria-hidden="true">→</span>
-          </a>
+          {site.linkedIn ? (
+            <a
+              href={site.linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-8 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] text-charcoal uppercase transition-all duration-300 hover:gap-3 hover:text-terracotta"
+            >
+              {about.linkedInCta} <span aria-hidden="true">→</span>
+            </a>
+          ) : null}
         </FadeIn>
       </div>
     </section>

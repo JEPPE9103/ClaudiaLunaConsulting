@@ -1,39 +1,74 @@
 import { NextResponse } from "next/server";
+import {
+  getClientIp,
+  validateContactPayload,
+  type ContactPayload,
+} from "@/lib/contact";
+import { getMailConfig, sendContactEmail } from "@/lib/mail";
+import { checkRateLimit } from "@/lib/rate-limit";
 
-type ContactPayload = {
-  name?: string;
-  company?: string;
-  email?: string;
-  message?: string;
-};
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as ContactPayload;
-    const name = body.name?.trim() ?? "";
-    const company = body.company?.trim() ?? "";
-    const email = body.email?.trim() ?? "";
-    const message = body.message?.trim() ?? "";
-
-    if (!name || !company || !email || !message || !isValidEmail(email)) {
+    const ip = getClientIp(request);
+    const rate = checkRateLimit(ip);
+    if (!rate.allowed) {
       return NextResponse.json(
-        { ok: false, error: "Invalid input" },
+        { ok: false, error: "rate_limited" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(
+              Math.max(1, Math.ceil((rate.retryAfterMs ?? 60_000) / 1000)),
+            ),
+          },
+        },
+      );
+    }
+
+    const body = (await request.json()) as ContactPayload;
+    const validated = validateContactPayload(body);
+
+    if (!validated.ok) {
+      if (validated.error === "bot" || validated.error === "too_fast") {
+        // Appear successful to bots without sending.
+        return NextResponse.json({ ok: true });
+      }
+
+      return NextResponse.json(
+        { ok: false, error: validated.error },
         { status: 400 },
       );
     }
 
-    // Placeholder endpoint for v1 — wire to email provider later.
-    // Payload is validated and accepted; no external send yet.
-    console.info("[contact]", { name, company, email, messageLength: message.length });
+    const config = getMailConfig();
+    if (!config) {
+      console.error("[contact] missing mail configuration");
+      return NextResponse.json(
+        { ok: false, error: "not_configured" },
+        { status: 503 },
+      );
+    }
+
+    const sent = await sendContactEmail(validated.data, config);
+    if (!sent.ok) {
+      return NextResponse.json(
+        { ok: false, error: sent.reason },
+        { status: 502 },
+      );
+    }
+
+    console.info("[contact] accepted by provider", {
+      hasId: Boolean(sent.id),
+      companyLength: validated.data.company.length,
+      messageLength: validated.data.message.length,
+    });
 
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
-      { ok: false, error: "Unable to process request" },
+      { ok: false, error: "unable_to_process" },
       { status: 500 },
     );
   }

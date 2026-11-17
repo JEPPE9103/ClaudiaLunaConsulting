@@ -6,7 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@/data/content";
 
 const STORAGE_KEY = "clc-locale";
+const listeners = new Set<() => void>();
 
 type LanguageContextValue = {
   locale: Locale;
@@ -30,27 +31,43 @@ function isLocale(value: string | null): value is Locale {
   return value === "sv" || value === "en";
 }
 
+function emitLocaleChange() {
+  listeners.forEach((listener) => listener());
+}
+
+function subscribe(onStoreChange: () => void) {
+  listeners.add(onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    listeners.delete(onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
+
+function getLocaleSnapshot(): Locale {
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  return isLocale(stored) ? stored : defaultLocale;
+}
+
+function getServerLocaleSnapshot(): Locale {
+  return defaultLocale;
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (isLocale(stored)) {
-      setLocaleState(stored);
-    }
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return;
-    document.documentElement.lang = locale;
-    window.localStorage.setItem(STORAGE_KEY, locale);
-  }, [locale, ready]);
+  const locale = useSyncExternalStore(
+    subscribe,
+    getLocaleSnapshot,
+    getServerLocaleSnapshot,
+  );
 
   const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
+    window.localStorage.setItem(STORAGE_KEY, next);
+    emitLocaleChange();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const value = useMemo(
     () => ({
