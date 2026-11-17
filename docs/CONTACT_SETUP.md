@@ -51,7 +51,7 @@ In the Vercel project → **Settings** → **Environment Variables**, add for Pr
 | --- | --- |
 | `RESEND_API_KEY` | your Resend key |
 | `CONTACT_TO_EMAIL` | `claudialunaconsulting@gmail.com` |
-| `CONTACT_FROM_EMAIL` | `website@claudialunaconsulting.com` |
+| `CONTACT_FROM_EMAIL` | `website@claudialunaconsulting.com` (bare email only — no display name / `<>`) |
 
 Redeploy after saving variables so the production runtime picks them up.
 

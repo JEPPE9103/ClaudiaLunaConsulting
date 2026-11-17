@@ -10,7 +10,47 @@ vi.mock("resend", () => ({
   },
 }));
 
-import { getMailConfig, sendContactEmail } from "@/lib/mail";
+import {
+  extractEmailAddress,
+  formatFromAddress,
+  getMailConfig,
+  sendContactEmail,
+} from "@/lib/mail";
+
+describe("extractEmailAddress / formatFromAddress", () => {
+  it("accepts a bare email address", () => {
+    expect(extractEmailAddress("website@claudialunaconsulting.com")).toBe(
+      "website@claudialunaconsulting.com",
+    );
+    expect(formatFromAddress("website@claudialunaconsulting.com")).toBe(
+      "Claudia Luna Consulting <website@claudialunaconsulting.com>",
+    );
+  });
+
+  it("extracts email from a named from value without double-wrapping", () => {
+    expect(
+      extractEmailAddress(
+        "Claudia Luna Consulting <website@claudialunaconsulting.com>",
+      ),
+    ).toBe("website@claudialunaconsulting.com");
+    expect(
+      formatFromAddress(
+        "Claudia Luna Consulting <website@claudialunaconsulting.com>",
+      ),
+    ).toBe("Claudia Luna Consulting <website@claudialunaconsulting.com>");
+  });
+
+  it("strips wrapping quotes", () => {
+    expect(extractEmailAddress('"website@claudialunaconsulting.com"')).toBe(
+      "website@claudialunaconsulting.com",
+    );
+  });
+
+  it("rejects invalid values", () => {
+    expect(extractEmailAddress("Claudia Luna Consulting")).toBeNull();
+    expect(formatFromAddress("not-an-email")).toBeNull();
+  });
+});
 
 describe("getMailConfig", () => {
   beforeEach(() => {
@@ -34,6 +74,17 @@ describe("getMailConfig", () => {
       toEmail: "claudialunaconsulting@gmail.com",
       fromEmail: "website@claudialunaconsulting.com",
     });
+  });
+
+  it("normalizes a named CONTACT_FROM_EMAIL env value", () => {
+    process.env.RESEND_API_KEY = "re_test";
+    process.env.CONTACT_TO_EMAIL = "claudialunaconsulting@gmail.com";
+    process.env.CONTACT_FROM_EMAIL =
+      "Claudia Luna Consulting <website@claudialunaconsulting.com>";
+
+    expect(getMailConfig()?.fromEmail).toBe(
+      "website@claudialunaconsulting.com",
+    );
   });
 });
 

@@ -7,10 +7,51 @@ export type MailConfig = {
   fromEmail: string;
 };
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function stripWrappingQuotes(value: string) {
+  const trimmed = value.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+/**
+ * Accepts a bare address or `Name <email@domain>` and returns the bare email.
+ * Prevents invalid double-wrapped Resend `from` values when the env already
+ * includes a display name.
+ */
+export function extractEmailAddress(raw: string): string | null {
+  const value = stripWrappingQuotes(raw);
+  if (!value) return null;
+
+  const named = value.match(/^(.*?)<([^<>]+)>\s*$/);
+  const email = (named ? named[2] : value).trim();
+
+  if (!EMAIL_RE.test(email)) {
+    return null;
+  }
+
+  return email;
+}
+
+export function formatFromAddress(
+  fromEmail: string,
+  displayName = "Claudia Luna Consulting",
+) {
+  const email = extractEmailAddress(fromEmail);
+  if (!email) return null;
+  return `${displayName} <${email}>`;
+}
+
 export function getMailConfig(): MailConfig | null {
   const apiKey = process.env.RESEND_API_KEY?.trim();
-  const toEmail = process.env.CONTACT_TO_EMAIL?.trim();
-  const fromEmail = process.env.CONTACT_FROM_EMAIL?.trim();
+  const toEmail = extractEmailAddress(process.env.CONTACT_TO_EMAIL ?? "");
+  const fromEmail = extractEmailAddress(process.env.CONTACT_FROM_EMAIL ?? "");
 
   if (!apiKey || !toEmail || !fromEmail) {
     return null;
@@ -28,12 +69,22 @@ export async function sendContactEmail(
   config: MailConfig,
   submittedAt = new Date(),
 ): Promise<SendContactResult> {
+  const from = formatFromAddress(config.fromEmail);
+  if (!from) {
+    console.error("[contact] invalid from address configuration", {
+      fromHasAt: config.fromEmail.includes("@"),
+      fromHasAngleBrackets: /[<>]/.test(config.fromEmail),
+      fromLength: config.fromEmail.length,
+    });
+    return { ok: false, reason: "not_configured" };
+  }
+
   const resend = new Resend(config.apiKey);
   const email = buildContactEmail(data, submittedAt);
 
   try {
     const result = await resend.emails.send({
-      from: `Claudia Luna Consulting <${config.fromEmail}>`,
+      from,
       to: [config.toEmail],
       replyTo: data.email,
       subject: email.subject,
@@ -45,6 +96,7 @@ export async function sendContactEmail(
       console.error("[contact] provider rejected message", {
         name: result.error.name,
         message: result.error.message,
+        fromDomain: config.fromEmail.split("@")[1] ?? null,
       });
       return { ok: false, reason: "provider_error" };
     }
